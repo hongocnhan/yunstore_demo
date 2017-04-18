@@ -1,0 +1,45 @@
+<div class="row carousel-holder">
+    <div class="col-md-12">
+        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+              <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>&nbsp&nbsp
+              <%
+                for (let i = 1; i < arrayBannerCenter.rowCount; i++) {
+                  if (arrayBannerCenter.rows[i].linkanh != "null") {
+                    %><li data-target="#carousel-example-generic" data-slide-to="<%= i %>"></li>&nbsp&nbsp<%
+                  }
+                }
+              %>
+            </ol>
+            <div class="carousel-inner">
+                <div class="item active">
+                  <a href="<%= arrayBannerCenter.rows[0].lienket %>"><img class="slide-image" src="../img_/<%= arrayBannerCenter.rows[0].linkanh %>" alt="slide-image"></a>
+                  <div class="carousel-caption">
+                    <h3><%= arrayBannerCenter.rows[0].tieude %></h3>
+                    <p><%= arrayBannerCenter.rows[0].noidung %></p>
+                  </div>
+                </div>
+                <%
+                  for (let i = 1; i < arrayBannerCenter.rowCount; i++) {
+                    if (arrayBannerCenter.rows[i].linkanh != "null") {
+                      %><div class="item">
+                          <a href="<%= arrayBannerCenter.rows[i].lienket %>"><img class="slide-image" src="../img_/<%= arrayBannerCenter.rows[i].linkanh %>" alt="slide-image"></a>
+                          <div class="carousel-caption">
+                            <h3><%= arrayBannerCenter.rows[i].tieude %></h3>
+                            <p><%= arrayBannerCenter.rows[i].noidung %></p>
+                          </div>
+                      </div><%
+                    }
+                  }
+                %>
+            </div>
+            <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+            </a>
+            <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+            </a>
+        </div>
+    </div>
+
+</div>

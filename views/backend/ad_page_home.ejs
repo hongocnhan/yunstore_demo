@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>YunStore - Trang quản trị</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../quantri/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="../quantri/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../quantri/dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Morris Charts CSS -->
+    <link href="../quantri/vendor/morrisjs/morris.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="../quantri/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <%
+        // Add commas as thousand separators
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+    %>
+
+</head>
+
+<body>
+
+  <div id="wrapper">
+
+    <% include side_menu_header %>
+
+    <!-- Page Content -->
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="page-header">TỔNG QUAN</h2>
+                    <div class="col-lg-12">
+                      <div class="col-md-4 col-lg-4">
+                              <div class="panel panel-default">
+                                  <div class="panel-heading"><strong>ĐƠN HÀNG</strong></div>
+                                  <div class="panel-body">
+                                      <div class="col-lg-12 col-md-12">
+                                          <div class="panel panel-yellow">
+                                              <div class="panel-heading">
+                                                  <div class="row">
+                                                      <div class="col-xs-3">
+                                                          <i class="fa fa-shopping-cart fa-4x"></i>
+                                                      </div>
+                                                      <div class="col-xs-9 text-right">
+                                                          <%
+                                                            let order_new = 0;
+                                                            let order_running = 0;
+                                                            arrayAllListOrder.forEach(function(e) {
+                                                              if (e.trangthaidonhang == 1) {
+                                                                order_new += 1;
+                                                              }
+                                                              if (e.trangthaidonhang == 2) {
+                                                                order_running += 1;
+                                                              }
+                                                            })
+                                                          %>
+                                                          <div class="huge"><%= numberWithCommas(order_new) %></div>
+                                                          <div>Đơn hàng mới</div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                              <a href="/admin/new_orders">
+                                                  <div class="panel-footer">
+                                                      <span class="pull-left">View Details</span>
+                                                      <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                                      <div class="clearfix"></div>
+                                                  </div>
+                                              </a>
+                                          </div>
+                                      </div>
+                                      <div class="col-lg-12 col-md-12">
+                                          <div class="panel panel-red">
+                                              <div class="panel-heading">
+                                                  <div class="row">
+                                                      <div class="col-xs-3">
+                                                          <i class="fa fa-road fa-4x"></i>
+                                                      </div>
+                                                      <div class="col-xs-9 text-right">
+                                                          <div class="huge"><%= numberWithCommas(order_running) %></div>
+                                                          <div>Đơn đang xử lý</div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                              <a href="/admin/running_orders">
+                                                  <div class="panel-footer">
+                                                      <span class="pull-left">View Details</span>
+                                                      <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                                      <div class="clearfix"></div>
+                                                  </div>
+                                              </a>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-md-8 col-lg-8">
+                              <div class="panel panel-default">
+                                  <div class="panel-heading"><strong>BIỂU ĐỒ DOANH THU TUẦN</strong></div>
+                                  <div class="panel-body">
+                                    <div id="graph_week"></div>
+                                  </div>
+                              </div>
+                          </div>
+                    </div>
+                    <div class="col-lg-12">
+                      <div class="panel panel-default">
+                        <div class="panel-heading"><strong>HÀNG HÓA</strong></div>
+                        <%
+                          let product_online = 0;
+                          let product_offline = 0;
+                          product_list.forEach(function(e) {
+                            if (e.hienthi) {
+                              product_online += 1;
+                            } else {
+                              product_offline += 1;
+                            }
+                          });
+
+                        %>
+                        <div class="panel-body">
+                          <div class="col-lg-4 col-md-4">
+                              <div class="panel panel-green">
+                                  <div class="panel-heading">
+                                      <div class="row">
+                                          <div class="col-xs-3">
+                                              <i class="fa fa-check-circle-o fa-5x"></i>
+                                          </div>
+                                          <div class="col-xs-9 text-right">
+                                              <div class="huge"><%= numberWithCommas(product_online) %></div>
+                                              <div>Sản phẩm Online</div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <a href="/admin/products">
+                                      <div class="panel-footer">
+                                          <span class="pull-left">View Details</span>
+                                          <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                          <div class="clearfix"></div>
+                                      </div>
+                                  </a>
+                              </div>
+                          </div>
+                          <div class="col-lg-4 col-md-4">
+                              <div class="panel panel-red">
+                                  <div class="panel-heading">
+                                      <div class="row">
+                                          <div class="col-xs-3">
+                                              <i class="fa fa-times-circle-o fa-5x"></i>
+                                          </div>
+                                          <div class="col-xs-9 text-right">
+                                              <div class="huge"><%= numberWithCommas(product_offline) %></div>
+                                              <div>Sản phẩm Offline</div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <a href="/admin/products">
+                                      <div class="panel-footer">
+                                          <span class="pull-left">View Details</span>
+                                          <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                          <div class="clearfix"></div>
+                                      </div>
+                                  </a>
+                              </div>
+                          </div>
+                          <div class="col-lg-4 col-md-4">
+                              <div class="panel panel-yellow">
+                                  <div class="panel-heading">
+                                      <div class="row">
+                                          <div class="col-xs-3">
+                                              <i class="fa fa-list-ul fa-5x"></i>
+                                          </div>
+                                          <div class="col-xs-9 text-right">
+                                              <div class="huge"><%= numberWithCommas(categories_list.rowCount) %></div>
+                                              <div>Nhóm sản phẩm</div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <a href="/admin/categories">
+                                      <div class="panel-footer">
+                                          <span class="pull-left">View Details</span>
+                                          <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                          <div class="clearfix"></div>
+                                      </div>
+                                  </a>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Page Content -->
+
+  </div>
+  <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="../quantri/vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../quantri/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="../quantri/vendor/metisMenu/metisMenu.min.js"></script>
+
+    <!-- Morris Charts JavaScript -->
+    <script src="../quantri/vendor/raphael/raphael.min.js"></script>
+    <script src="../quantri/vendor/morrisjs/morris.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="../quantri/dist/js/sb-admin-2.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function() {
+
+        <%
+
+        Date.prototype.customFormat = function(formatString){
+          var YYYY,YY,MMMM,MMM,MM,M,DDDD,DDD,DD,D,hhhh,hhh,hh,h,mm,m,ss,s,ampm,AMPM,dMod,th;
+          YY = ((YYYY=this.getFullYear())+"").slice(-2);
+          MM = (M=this.getMonth()+1)<10?('0'+M):M;
+          MMM = (MMMM=["January","February","March","April","May","June","July","August","September","October","November","December"][M-1]).substring(0,3);
+          DD = (D=this.getDate())<10?('0'+D):D;
+          DDD = (DDDD=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][this.getDay()]).substring(0,3);
+          th=(D>=10&&D<=20)?'th':((dMod=D%10)==1)?'st':(dMod==2)?'nd':(dMod==3)?'rd':'th';
+          formatString = formatString.replace("#YYYY#",YYYY).replace("#YY#",YY).replace("#MMMM#",MMMM).replace("#MMM#",MMM).replace("#MM#",MM).replace("#M#",M).replace("#DDDD#",DDDD).replace("#DDD#",DDD).replace("#DD#",DD).replace("#D#",D).replace("#th#",th);
+          h=(hhh=this.getHours());
+          if (h==0) h=24;
+          if (h>12) h-=12;
+          hh = h<10?('0'+h):h;
+          hhhh = hhh<10?('0'+hhh):hhh;
+          AMPM=(ampm=hhh<12?'am':'pm').toUpperCase();
+          mm=(m=this.getMinutes())<10?('0'+m):m;
+          ss=(s=this.getSeconds())<10?('0'+s):s;
+          return formatString.replace("#hhhh#",hhhh).replace("#hhh#",hhh).replace("#hh#",hh).replace("#h#",h).replace("#mm#",mm).replace("#m#",m).replace("#ss#",ss).replace("#s#",s).replace("#ampm#",ampm).replace("#AMPM#",AMPM);
+        };
+
+        let point_curr = new Date(startOfWeek);
+        let point_pre = new Date(startOfLastWeek)
+        let point_curr_parse = Date.parse(startOfWeek);
+        let point_pre_parse = Date.parse(point_pre);
+
+        let curr_sum, pre_sum;
+        let arr_week_data = [];
+
+        for (var i = 1; i < 8; i++) {
+          curr_sum = 0;
+          pre_sum = 0;
+          arrayListOrderInCurrWeek.forEach(function(e) {
+            if (point_curr_parse == Date.parse(e.ngaybatdau)) {
+              curr_sum += e.tongtien;
+            }
+          });
+          arrayListOrderInLastWeek.forEach(function(e) {
+            if (point_pre_parse == Date.parse(e.ngaybatdau)) {
+              pre_sum += e.tongtien;
+            }
+          });
+          let info_row = {
+            time_: new Date(point_curr_parse).customFormat("#DD#-#MM#-#YYYY# #DDD#"),
+            tuannay: curr_sum,
+            tuantruoc: pre_sum
+          }
+          point_curr.setDate(point_curr.getDate() + 1);
+          point_curr_parse = Date.parse(point_curr);
+          point_pre.setDate(point_pre.getDate() + 1);
+          point_pre_parse = Date.parse(point_pre);
+          arr_week_data.push(info_row);
+        }
+
+        let html_ = "[";
+        for (var i = 0; i < arr_week_data.length; i++) {
+          html_ += `
+            {"time_": "${arr_week_data[i].time_}", "tuannay": ${arr_week_data[i].tuannay}, "tuantruoc": ${arr_week_data[i].tuantruoc}},
+          `;
+        }
+        html_ += "]";
+        %>
+
+        var week_data = <%- html_ %>;
+        Morris.Line({
+        	element: 'graph_week',
+          data: week_data,
+          xkey: 'time_',
+          ykeys: ['tuannay', 'tuantruoc'],
+          labels: ['Tuan nay', 'Tuan truoc'],
+          resize: true,
+          smooth: false,
+          parseTime: false,
+        });
+
+
+      });
+
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,282 @@
+<%
+  function numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+  let km_tu = new Date();
+  let km_den = new Date();
+  let thoidiem = Date.now();
+
+  if (countHot_product.rows[0].count != 0){
+    %>
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-3 col-md-offset-9 ">
+
+              <div class="controls pull-right hidden-xs">
+                  <a class="left fa fa-chevron-left btn btn-primary" href="#carousel-sphot" data-slide="prev">
+                  </a>
+                  <a class="right fa fa-chevron-right btn btn-primary" href="#carousel-sphot" data-slide="next">
+                  </a>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div id="carousel-sphot" class="carousel slide hidden-xs" data-ride="carousel">
+
+            <div class="carousel-inner">
+    <%
+    if ((countHot_product.rows[0].count <= 4) && (countHot_product.rows[0].count > 0)){
+      // in 1 trang có 4 phan tu
+      %>
+              <div class="item active">
+                <div class="row">
+                  <%
+                    for (let i = 0; i < countHot_product.rows[0].count; i++) {
+                      %>
+                        <div class="col-sm-3">
+                          <div class="thumbnail cover_sp">
+                            <div class="post_img_content">
+                              <img src="../img_/<%= arrayHot_Product.rows[i].anh_01 %>" class="_img-responsive" alt="Responsive image" >
+                              <%
+
+                                km_tu = arrayHot_Product.rows[i].km_tungay;
+                                km_den = arrayHot_Product.rows[i].km_denngay;
+                                km_den.setHours(km_den.getHours()+ 23);
+                                if((Date.parse(km_tu) <= thoidiem)&&(thoidiem <= Date.parse(km_den))){
+                                  %>
+                              <span class="title_label" >
+                                <b>Khuyến mãi</b>
+                              </span>
+                            </div>
+                            <div class="caption post_content" style="padding-top: 0px; background-color: #e2e2e2; border-radius: 0 0 10px 10px ;" >
+                              <h4 style="text-overflow: ellipsis; overflow: hidden;">
+                                <a href="/product/<%= arrayHot_Product.rows[i].tensanpham_seo %>"><%= arrayHot_Product.rows[i].tensanpham %></a>
+                              </h4>
+                                  <%
+                                  %><h4 class="NumberGia_LineThrough" ><%= numberWithCommas(arrayHot_Product.rows[i].gia_thuong) %>đ</h4><%
+                                  %><h4 id="gia_km" >Giá KM: <%= numberWithCommas(arrayHot_Product.rows[i].gia_km) %>đ</h4><%
+                                }else{
+                                  %>
+                            </div>
+                            <div class="caption post_content" style="padding-top: 0px; background-color: #e2e2e2; border-radius: 0 0 10px 10px ;" >
+                              <h4 style="text-overflow: ellipsis; overflow: hidden;">
+                                <a href="/product/<%= arrayHot_Product.rows[i].tensanpham_seo %>"><%= arrayHot_Product.rows[i].tensanpham %></a>
+                              </h4>
+                                  <%
+                                  %><h4><%= numberWithCommas(arrayHot_Product.rows[i].gia_thuong) %>đ</h4><%
+                                }
+                              %>
+                            </div>
+                          </div>
+                        </div>
+                         <!-- end col-sm-3 -->
+                      <%
+                    }
+                  %>
+                </div>
+              </div>
+      <%
+    } else if ((countHot_product.rows[0].count > 4) && (countHot_product.rows[0].count <= 8)){
+              //in 2 trang
+              %>
+                <div class="item active">
+                  <div class="row">
+                    <%
+                      for (let i = 0; i < 4; i++) {
+                        %>
+                          <div class="col-sm-3">
+                            <div class="thumbnail cover_sp">
+                              <div class="post_img_content">
+                                <img src="../img_/<%= arrayHot_Product.rows[i].anh_01 %>" class="_img-responsive" alt="Responsive image" >
+                                <%
+
+                                  km_tu = arrayHot_Product.rows[i].km_tungay;
+                                  km_den = arrayHot_Product.rows[i].km_denngay;
+                                  km_den.setHours(km_den.getHours()+ 23);
+                                  if((Date.parse(km_tu) <= thoidiem)&&(thoidiem <= Date.parse(km_den))){
+                                    %>
+                                <span class="title_label" >
+                                  <b>Khuyến mãi</b>
+                                </span>
+                              </div>
+                              <div class="caption post_content" style="padding-top: 0px; background-color: #e2e2e2; border-radius: 0 0 10px 10px ;" >
+                                <h4 style="text-overflow: ellipsis; overflow: hidden;">
+                                  <a href="/product/<%= arrayHot_Product.rows[i].tensanpham_seo %>"><%= arrayHot_Product.rows[i].tensanpham %></a>
+                                </h4>
+                                    <%
+                                    %><h4 class="NumberGia_LineThrough" ><%= numberWithCommas(arrayHot_Product.rows[i].gia_thuong) %>đ</h4><%
+                                    %><h4 id="gia_km" >Giá KM: <%= numberWithCommas(arrayHot_Product.rows[i].gia_km) %>đ</h4><%
+                                  }else{
+                                    %>
+                              </div>
+                              <div class="caption post_content" style="padding-top: 0px; background-color: #e2e2e2; border-radius: 0 0 10px 10px ;" >
+                                <h4 style="text-overflow: ellipsis; overflow: hidden;">
+                                  <a href="/product/<%= arrayHot_Product.rows[i].tensanpham_seo %>"><%= arrayHot_Product.rows[i].tensanpham %></a>
+                                </h4>
+                                    <%
+                                    %><h4><%= numberWithCommas(arrayHot_Product.rows[i].gia_thuong) %>đ</h4><%
+                                  }
+                                %>
+                              </div>
+                            </div>
+                          </div>
+                           <!-- end col-sm-3 -->
+                        <%
+                      }
+                    %>
+                  </div>
+                </div>
+                <div class="item">
+                  <div class="row">
+                    <%
+                      for (let i = 4; i < countHot_product.rows[0].count; i++) {
+                        %>
+                          <div class="col-sm-3">
+                            <div class="thumbnail cover_sp">
+                              <div class="post_img_content">
+                                <img src="../img_/<%= arrayHot_Product.rows[i].anh_01 %>" class="_img-responsive" alt="Responsive image" >
+                                <%
+
+                                  km_tu = arrayHot_Product.rows[i].km_tungay;
+                                  km_den = arrayHot_Product.rows[i].km_denngay;
+                                  km_den.setHours(km_den.getHours()+ 23);
+                                  if((Date.parse(km_tu) <= thoidiem)&&(thoidiem <= Date.parse(km_den))){
+                                    %>
+                                <span class="title_label" >
+                                  <b>Khuyến mãi</b>
+                                </span>
+                              </div>
+                              <div class="caption post_content" style="padding-top: 0px; background-color: #e2e2e2; border-radius: 0 0 10px 10px ;" >
+                                <h4 style="text-overflow: ellipsis; overflow: hidden;">
+                                  <a href="/product/<%= arrayHot_Product.rows[i].tensanpham_seo %>"><%= arrayHot_Product.rows[i].tensanpham %></a>
+                                </h4>
+                                    <%
+                                    %><h4 class="NumberGia_LineThrough" ><%= numberWithCommas(arrayHot_Product.rows[i].gia_thuong) %>đ</h4><%
+                                    %><h4 id="gia_km" >Giá KM: <%= numberWithCommas(arrayHot_Product.rows[i].gia_km) %>đ</h4><%
+                                  }else{
+                                    %>
+                              </div>
+                              <div class="caption post_content" style="padding-top: 0px; background-color: #e2e2e2; border-radius: 0 0 10px 10px ;" >
+                                <h4 style="text-overflow: ellipsis; overflow: hidden;">
+                                  <a href="/product/<%= arrayHot_Product.rows[i].tensanpham_seo %>"><%= arrayHot_Product.rows[i].tensanpham %></a>
+                                </h4>
+                                    <%
+                                    %><h4><%= numberWithCommas(arrayHot_Product.rows[i].gia_thuong) %>đ</h4><%
+                                  }
+                                %>
+                              </div>
+                            </div>
+                          </div>
+                           <!-- end col-sm-3 -->
+                        <%
+                      }
+                    %>
+                  </div>
+                </div>
+              <%
+            } else if (countHot_product.rows[0].count > 8) {
+                      // Chi in 2 trang
+                      %>
+                        <div class="item active">
+                          <div class="row">
+                            <%
+                              for (let i = 0; i < 4; i++) {
+                                %>
+                                  <div class="col-sm-3">
+                                    <div class="thumbnail cover_sp">
+                                      <div class="post_img_content">
+                                        <img src="../img_/<%= arrayHot_Product.rows[i].anh_01 %>" class="_img-responsive" alt="Responsive image" >
+                                        <%
+
+                                          km_tu = arrayHot_Product.rows[i].km_tungay;
+                                          km_den = arrayHot_Product.rows[i].km_denngay;
+                                          km_den.setHours(km_den.getHours()+ 23);
+                                          if((Date.parse(km_tu) <= thoidiem)&&(thoidiem <= Date.parse(km_den))){
+                                            %>
+                                        <span class="title_label" >
+                                          <b>Khuyến mãi</b>
+                                        </span>
+                                      </div>
+                                      <div class="caption post_content" style="padding-top: 0px; background-color: #e2e2e2; border-radius: 0 0 10px 10px ;" >
+                                        <h4 style="text-overflow: ellipsis; overflow: hidden;">
+                                          <a href="/product/<%= arrayHot_Product.rows[i].tensanpham_seo %>"><%= arrayHot_Product.rows[i].tensanpham %></a>
+                                        </h4>
+                                            <%
+                                            %><h4 class="NumberGia_LineThrough" ><%= numberWithCommas(arrayHot_Product.rows[i].gia_thuong) %>đ</h4><%
+                                            %><h4 id="gia_km" >Giá KM: <%= numberWithCommas(arrayHot_Product.rows[i].gia_km) %>đ</h4><%
+                                          }else{
+                                            %>
+                                      </div>
+                                      <div class="caption post_content" style="padding-top: 0px; background-color: #e2e2e2; border-radius: 0 0 10px 10px ;" >
+                                        <h4 style="text-overflow: ellipsis; overflow: hidden;">
+                                          <a href="/product/<%= arrayHot_Product.rows[i].tensanpham_seo %>"><%= arrayHot_Product.rows[i].tensanpham %></a>
+                                        </h4>
+                                            <%
+                                            %><h4><%= numberWithCommas(arrayHot_Product.rows[i].gia_thuong) %>đ</h4><%
+                                          }
+                                        %>
+                                      </div>
+                                    </div>
+                                  </div>
+                                   <!-- end col-sm-3 -->
+                                <%
+                              }
+                            %>
+                          </div>
+                        </div>
+                        <div class="item">
+                          <div class="row">
+                            <%
+                              for (let i = 4; i < 8; i++) {
+                                %>
+                                  <div class="col-sm-3">
+                                    <div class="thumbnail cover_sp">
+                                      <div class="post_img_content">
+                                        <img src="../img_/<%= arrayHot_Product.rows[i].anh_01 %>" class="_img-responsive" alt="Responsive image" >
+                                        <%
+
+                                          km_tu = arrayHot_Product.rows[i].km_tungay;
+                                          km_den = arrayHot_Product.rows[i].km_denngay;
+                                          km_den.setHours(km_den.getHours()+ 23);
+                                          if((Date.parse(km_tu) <= thoidiem)&&(thoidiem <= Date.parse(km_den))){
+                                            %>
+                                        <span class="title_label" >
+                                          <b>Khuyến mãi</b>
+                                        </span>
+                                      </div>
+                                      <div class="caption post_content" style="padding-top: 0px; background-color: #e2e2e2; border-radius: 0 0 10px 10px ;" >
+                                        <h4 style="text-overflow: ellipsis; overflow: hidden;">
+                                          <a href="/product/<%= arrayHot_Product.rows[i].tensanpham_seo %>"><%= arrayHot_Product.rows[i].tensanpham %></a>
+                                        </h4>
+                                            <%
+                                            %><h4 class="NumberGia_LineThrough" ><%= numberWithCommas(arrayHot_Product.rows[i].gia_thuong) %>đ</h4><%
+                                            %><h4 id="gia_km" >Giá KM: <%= numberWithCommas(arrayHot_Product.rows[i].gia_km) %>đ</h4><%
+                                          }else{
+                                            %>
+                                      </div>
+                                      <div class="caption post_content" style="padding-top: 0px; background-color: #e2e2e2; border-radius: 0 0 10px 10px ;" >
+                                        <h4 style="text-overflow: ellipsis; overflow: hidden;">
+                                          <a href="/product/<%= arrayHot_Product.rows[i].tensanpham_seo %>"><%= arrayHot_Product.rows[i].tensanpham %></a>
+                                        </h4>
+                                            <%
+                                            %><h4><%= numberWithCommas(arrayHot_Product.rows[i].gia_thuong) %>đ</h4><%
+                                          }
+                                        %>
+                                      </div>
+                                    </div>
+                                  </div>
+                                   <!-- end col-sm-3 -->
+                                <%
+                              }
+                            %>
+                          </div>
+                        </div>
+                      <%
+                    }
+    %>
+            </div>
+          </div>
+        </div>
+    <%
+  }
+%>

@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>YunStore - Tạo sản phẩm</title>
+    <base href="/" >
+    <!-- Bootstrap Core CSS -->
+    <link href="quantri/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap datepicker CSS -->
+    <link href="css/datepicker-3.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="quantri/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- CKEditor Plugin JavaScript -->
+    <script src="quantri/dist/ckeditor/ckeditor.js"></script>
+
+    <!-- Custom CSS -->
+    <link href="quantri/dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="quantri/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+    <div class="wrapper">
+      <% include side_menu_header %>
+
+      <div id="page-wrapper">
+          <div class="container-fluid">
+              <div class="row">
+                  <div class="col-lg-12">
+                      <h3 class="page-header">Sản phẩm - "<%= product_item.tensanpham %>"</h3>
+                      <div class="col-lg-12">
+                        <form id="form-update-product" class="form-horizontal" action="/admin/products_detail_update" method="post" autocomplete="off" enctype="multipart/form-data" >
+                          <div class="form-group">
+                            <label class="col-sm-2 control-label">Tên sản phẩm:</label>
+                            <div class="col-sm-10">
+                              <input type="text" class="form-control" id="product_name" name="product_name" value="<%= product_item.tensanpham %>" >
+                              <input type="text" class="hidden" id="product_name_old" name="product_name_old" value="<%= product_item.tensanpham %>" >
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-sm-2 control-label">Nhóm hàng:</label>
+                            <div class="col-sm-10">
+                              <select id="code_categories" name="code_categories" class="form-control">
+                                  <%
+                                    arrayListTrade.forEach(function(e){
+                                      %>
+                                        <option value="<%= e.tenloaisp_seo %>" data-id="<%= e.id %>" ><%= e.tenloaisp %></option>
+                                      <%
+                                    })
+                                  %>
+                              </select>
+                              <input type="text" class="hidden" name="id_tenloaisp" id="id_tenloaisp" value="<%= product_item.id_tenloaisp %>" >
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-sm-2 control-label">Nhà sản xuất:</label>
+                            <div class="col-sm-10">
+                                <div id="list_Trade"></div>
+                                <input type="text" class="hidden" name="id_tennhasx" id="id_tennhasx" value="<%= product_item.id_tennhasx %>" >
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-sm-2 control-label">Bảo hành:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="warranty" name="warranty" value="<%= product_item.baohanh %>">
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-sm-2 control-label">Tình trạng:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="product_status" name="product_status" value="<%= product_item.tinhtrang %>" >
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-sm-2 control-label">Nội dung tóm tắt:</label>
+                            <div class="col-sm-10">
+                                <textarea name="sort_contend" id="sort_contend" class="ckeditor">
+                                  <%- product_item.noidung_ngan %>
+                                </textarea>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-sm-2 control-label">Nội dung dài:</label>
+                            <div class="col-sm-10">
+                              <textarea name="long_contend" id="long_contend" class="ckeditor" >
+                                <%- product_item.noidung_dai %>
+                              </textarea>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-sm-2 control-label">Giá thường:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="normal_price" name="normal_price" value="<%= product_item.gia_thuong %>" >
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-sm-2 control-label">Giá KM:</label>
+                            <div class="col-sm-10">
+                              <input type="text" class="form-control" id="saleoff_price" name="saleoff_price" value="<%= product_item.gia_km %>" >
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-sm-2 control-label">Khuyến mãi từ:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="datefrom" name="datefrom" >
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-sm-2 control-label">Khuyến mãi đến:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="dateto" name="dateto" >
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-sm-2 control-label">Số lượng:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="quantity" name="quantity" maxlength="3" value="<%= product_item.soluong %>" >
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-sm-2 control-label">Hiển thị:</label>
+                            <div class="col-sm-10">
+                              <%
+                                if (product_item.hienthi) {
+                                  %>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="show" id="show_yes" value="1" checked />
+                                        Có
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="show" id="show_no" value="0" />
+                                        Không
+                                    </label>
+                                  <%
+                                } else {
+                                  %>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="show" id="show_yes" value="1" />
+                                        Có
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="show" id="show_no" value="0" checked />
+                                        Không
+                                    </label>
+                                  <%
+                                }
+                              %>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-sm-2 control-label">Sản phẩm Push:</label>
+                            <div class="col-sm-10">
+                              <%
+                                if (product_item.sp_push) {
+                                  %>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="product_push" id="push_yes" value="1" checked />
+                                        Có
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="product_push" id="push_no" value="0" />
+                                        Không
+                                    </label>
+                                  <%
+                                } else {
+                                  %>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="product_push" id="push_yes" value="1" />
+                                        Có
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="product_push" id="push_no" value="0" checked />
+                                        Không
+                                    </label>
+                                  <%
+                                }
+                              %>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-sm-2 control-label">Hình ảnh:</label>
+                            <div class="col-sm-10">
+                              <div class="col-sm-3 col-md-3 col-lg-3">
+                                <div class="panel panel-primary">
+                                  <div class="panel-heading text-center">Ảnh chính</div>
+                                  <div class="panel-body">
+                                    <input type="file" class="hidden upload_img" name="anh01_upload" id="anh01_upload" />
+                                    <div id="anh01_holder" class="img_holder">
+                                      <label for="anh01_upload">
+                                        <%
+                                          if (product_item.anh_01 != "null") {
+                                            %>
+                                              <img src="../img_/<%= product_item.anh_01 %>" alt="anh_chinh_01" class="img-thumbnail" >
+                                            <%
+                                          } else {
+                                            %>
+                                              <img src="http://placehold.it/200x200" alt="anh_chinh_01" class="img-thumbnail" >
+                                            <%
+                                          }
+                                        %>
+                                      </label>
+                                    </div>
+                                  </div>
+                                  <div class="panel-footer text-center">
+                                    <a class="button_clear_img btn btn-warning">
+                                      <span class="glyphicon glyphicon-trash"></span>
+                                    </a>
+                                    <input type="text" class="hidden" name="anh_01_old" value="<%= product_item.anh_01 %>" >
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-sm-3 col-md-3 col-lg-3">
+                                <div class="panel panel-info">
+                                  <div class="panel-heading text-center">Ảnh phụ</div>
+                                  <div class="panel-body">
+                                    <input type="file" class="hidden upload_img" name="anh02_upload" id="anh02_upload" />
+                                    <div id="anh02_holder" class="img_holder">
+                                      <label for="anh02_upload">
+                                        <%
+                                          if (product_item.anh_02 != "null") {
+                                            %>
+                                              <img src="../img_/<%= product_item.anh_02 %>" alt="anh_phu_02" class="img-thumbnail" >
+                                            <%
+                                          } else {
+                                            %>
+                                              <img src="http://placehold.it/200x200" alt="anh_phu_02" class="img-thumbnail" >
+                                            <%
+                                          }
+                                        %>
+                                      </label>
+                                    </div>
+                                  </div>
+                                  <div class="panel-footer text-center">
+                                    <a class="button_clear_img btn btn-warning">
+                                      <span class="glyphicon glyphicon-trash"></span>
+                                    </a>
+                                    <input type="text" class="hidden" name="anh_02_old" value="<%= product_item.anh_02 %>" >
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-sm-3 col-md-3 col-lg-3">
+                                <div class="panel panel-info">
+                                  <div class="panel-heading text-center">Ảnh phụ</div>
+                                  <div class="panel-body">
+                                    <input type="file" class="hidden upload_img" name="anh03_upload" id="anh03_upload" />
+                                    <div id="anh03_holder" class="img_holder">
+                                      <label for="anh03_upload">
+                                        <%
+                                          if (product_item.anh_03 != "null") {
+                                            %>
+                                              <img src="../img_/<%= product_item.anh_03 %>" alt="anh_phu_03" class="img-thumbnail" >
+                                            <%
+                                          } else {
+                                            %>
+                                              <img src="http://placehold.it/200x200" alt="anh_phu_03" class="img-thumbnail" >
+                                            <%
+                                          }
+                                        %>
+                                      </label>
+                                    </div>
+                                  </div>
+                                  <div class="panel-footer text-center">
+                                    <a class="button_clear_img btn btn-warning">
+                                      <span class="glyphicon glyphicon-trash"></span>
+                                    </a>
+                                    <input type="text" class="hidden" name="anh_03_old" value="<%= product_item.anh_03 %>" >
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-sm-3 col-md-3 col-lg-3">
+                                <div class="panel panel-info">
+                                  <div class="panel-heading text-center">Ảnh phụ</div>
+                                  <div class="panel-body">
+                                    <input type="file" class="hidden upload_img" name="anh04_upload" id="anh04_upload" />
+                                    <div id="anh04_holder" class="img_holder">
+                                      <label for="anh04_upload">
+                                        <%
+                                          if (product_item.anh_04 != "null") {
+                                            %>
+                                              <img src="../img_/<%= product_item.anh_04 %>" alt="anh_phu_04" class="img-thumbnail" >
+                                            <%
+                                          } else {
+                                            %>
+                                              <img src="http://placehold.it/200x200" alt="anh_phu_04" class="img-thumbnail" >
+                                            <%
+                                          }
+                                        %>
+                                      </label>
+                                    </div>
+                                  </div>
+                                  <div class="panel-footer text-center">
+                                    <a class="button_clear_img btn btn-warning">
+                                      <span class="glyphicon glyphicon-trash"></span>
+                                    </a>
+                                    <input type="text" class="hidden" name="anh_04_old" value="<%= product_item.anh_04 %>" >
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <hr>
+                          <div class="form-group">
+                            <div class="col-sm-1 col-sm-offset-11 ">
+                              <button type="submit" class="btn btn-md btn-info" name="btn_update" id="btn_update" >
+                                <span class="glyphicon glyphicon-refresh"></span> Cập nhật
+                              </button>
+                            </div>
+                          </div>
+                          <input type="text" class="hidden" name="id_product" value="<%= product_item.id %>">
+                        </form>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+    </div>
+    <!-- /wrapper -->
+
+    <!-- jQuery -->
+    <script src="quantri/vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/validator/jquery.validate.js"></script>
+
+    <!-- datepicker -->
+    <script src="js/bootstrap-datepicker.min.js"></script>
+    <script src="js/bootstrap-datepicker.vi.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="quantri/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- jQuery dataFormat -->
+    <script src="./js/jquery-dateFormat.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="quantri/vendor/metisMenu/metisMenu.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="quantri/dist/js/sb-admin-2.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function() {
+
+        $("#code_categories").val("<%= product_item.tenloaisp_seo %>");
+
+        var trade_option_id;
+        var cat_option_id;
+
+        // Khởi tạo field Hãng sx
+        $.get(`/admin/ajax_trademark_list/${$("#code_categories").val()}`,data => {
+          $("#list_Trade").html(data);
+          $("#oldtrademark").val("<%= product_item.tennhasx_seo %>");
+        })
+
+        $("#code_categories").on('change',function(e){
+          var cat_selected = $("#code_categories").val();
+          $.get(`/admin/ajax_trademark_list/${cat_selected}`, data => {
+            $("#list_Trade").html(data);
+          });
+        })
+
+        $(document).on('change', '#oldtrademark', function() {
+          //  trade_option_value = $(this).val();
+          trade_option_id = $('option:selected', this).attr('data-id');
+          $("#id_tennhasx").val(trade_option_id);
+        });
+
+        $(document).on('change', '#code_categories', function() {
+          cat_option_id = $('option:selected', this).attr('data-id');
+          $("#id_tenloaisp").val(cat_option_id);
+        });
+
+        $.validator.addMethod('lessThanEqual', function(value, element, param) {
+            return this.optional(element) || parseInt(value) <= parseInt($(param).val());
+        }, "Giá khuyến mãi phải nhỏ hơn giá thường");
+
+        $.validator.addMethod( "greatThan", function( value, element, param ) {
+          var $min = $(param);
+          if (this.settings.onfocusout) {
+            $min.off(".validate-greaterThan").on("blur.validate-greaterThan", function () {
+              $(element).valid();
+            });
+          }
+          return parseInt(value) > parseInt($min.val());
+        }, "Giá thường phải lớn hơn giá khuyến mãi." );
+
+        $.validator.addMethod( "greatThanDate", function( value, element, param ) {
+            return new Date(value) >= new Date($(param).val());
+        }, "Giá trị thời gian phải lớn hơn." );
+
+        $.validator.addMethod( "greatThanNow", function( value, element ) {
+            var date = new Date();
+            return new Date(value) >= date.setDate(date.getDate() - 1);
+        }, "Giá trị thời gian phải lớn hơn hoặc bằng hiện tại." );
+
+        // add the rule here
+        $.validator.addMethod("valueNotEquals", function(value, element, arg){
+          return arg != value;
+        }, " ");
+
+        // validator
+        $("#form-update-product").validate({
+          ignore: [],
+          rules: {
+            datefrom: {
+              required: true,
+              dateISO: true,
+              greatThanNow: true
+            },
+            dateto: {
+              required: true,
+              dateISO: true,
+              greatThanDate: "#datefrom"
+            },
+            product_name: {
+              required: true,
+              minlength: 7,
+            },
+            warranty: {
+              required: true,
+              minlength: 3
+            },
+          	product_status: {
+              required: true,
+              minlength: 3
+            },
+            normal_price:{
+              required: true,
+              digits: true,
+              minlength: 3,
+              greatThan: "#saleoff_price",
+              min: 1000
+            },
+            saleoff_price: {
+              required: true,
+              digits: true,
+              minlength: 3,
+              lessThanEqual: "#normal_price",
+              min: 1000
+            },
+            sort_contend: {
+              required: function()
+                        {
+                         CKEDITOR.instances.sort_contend.updateElement();
+                        },
+              minlength: 20
+            },
+          	long_contend: {
+              required: function()
+                        {
+                         CKEDITOR.instances.long_contend.updateElement();
+                        },
+              minlength: 20
+            },
+            quantity: {
+              required: true,
+              digits: true,
+              min: 0,
+            },
+            anh01_upload: {
+              extension: "png|jpg"
+            }
+          },
+          messages: {
+            product_name: {
+              required: "Chưa nhập tên",
+              minlength: "Tên phải nhiều hơn 7 ký tự.",
+            },
+            warranty: {
+              required: "Chưa nhập thời gian bảo hành",
+              minlength: "Ít nhất 3 ký tự"
+            },
+          	product_status: {
+              required: "Chưa khai báo tình trạng sản phẩm",
+              minlength: "Ít nhất 3 ký tự"
+            },
+            normal_price:{
+              required: "Chưa nhập giá bán",
+              digits: "Dữ liệu không phải số",
+              minlength: "Độ dài tối thiểu 3 chữ số",
+              min: "Giá trị tối thiểu là 1000"
+            },
+            saleoff_price: {
+              required: "Chưa nhập giá bán",
+              digits: "Dữ liệu không phải số",
+              minlength: "Độ dài tối thiểu 3 chữ số",
+              min: "Giá trị tối thiểu là 1000"
+            },
+            sort_contend: {
+              required: "Chưa nhập nội dung",
+              minlength: "Độ dài tối thiểu 20 ky tự"
+            },
+          	long_contend: {
+              required: "Chưa nhập nội dung",
+              minlength: "Độ dài tối thiểu 20 ky tự"
+            },
+            quantity: {
+              required: "Chưa nhập số lượng sản phẩm",
+              digits: "Giá trị phải kiểu số",
+              min: "Giá trị tối thiểu là 0",
+            },
+            anh01_upload: {
+              required: "Chưa chọn ảnh chính"
+            }
+          },
+          errorElement: "em",
+  				errorPlacement: function ( error, element ) {
+  					// Add the `help-block` class to the error element
+  					error.addClass( "help-block" );
+
+  					// Add `has-feedback` class to the parent div.form-group
+  					// in order to add icons to inputs
+  					element.parents( ".col-sm-10" ).addClass( "has-feedback" );
+
+            error.insertAfter( element );
+
+  					// Add the span element, if doesn't exists, and apply the icon classes to it.
+  					if ( !element.next( "span" )[ 0 ] ) {
+  						$( "<span class='glyphicon glyphicon-remove form-control-feedback'></span>" ).insertAfter( element );
+  					}
+  				},
+  				success: function ( label, element ) {
+  					// Add the span element, if doesn't exists, and apply the icon classes to it.
+  					if ( !$( element ).next( "span" )[ 0 ] ) {
+  						$( "<span class='glyphicon glyphicon-ok form-control-feedback'></span>" ).insertAfter( $( element ) );
+  					}
+  				},
+  				highlight: function ( element, errorClass, validClass ) {
+  					$( element ).parents( ".col-sm-10" ).addClass( "has-error" ).removeClass( "has-success" );
+  					$( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
+  				},
+  				unhighlight: function ( element, errorClass, validClass ) {
+  					$( element ).parents( ".col-sm-10" ).addClass( "has-success" ).removeClass( "has-error" );
+  					$( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
+  				}
+        });
+
+        $('#datefrom').datepicker({
+          language: "vi",
+          format: 'yyyy/mm/dd',
+          startDate: new Date(),
+        });
+        $('#datefrom').datepicker('update', $.format.date('<%= product_item.km_tungay %>', 'yyyy/MM/dd'))
+        $('#datefrom').val($.format.date('<%= product_item.km_tungay %>', 'yyyy/MM/dd'));
+        $('#datefrom').on('changeDate', function() {
+            $('#datefrom').val(
+                $('#datefrom').datepicker('getFormattedDate')
+            );
+        });
+
+        $('#dateto').datepicker({
+          language: "vi",
+          format: 'yyyy/mm/dd',
+          startDate: new Date(),
+        });
+        $('#dateto').datepicker('update', $.format.date('<%= product_item.km_denngay %>', 'yyyy/MM/dd'))
+        $('#dateto').val($.format.date('<%= product_item.km_denngay %>', 'yyyy/MM/dd'));
+        $('#dateto').on('changeDate', function() {
+            $('#dateto').val(
+                $('#dateto').datepicker('getFormattedDate')
+            );
+        });
+
+        $("#anh01_upload").on('change',function(){
+          if(typeof (FileReader) != "undefined"){
+            var anh01_holder = $("#anh01_holder");
+            anh01_holder.empty();
+
+            var reader = new FileReader();
+            reader.onload = function (e) {
+              $("<img />", {
+                "src": e.target.result,
+                "class": "img-thumbnail"
+              }).appendTo (anh01_holder);
+            }
+            anh01_holder.show();
+            reader.readAsDataURL($(this)[0].files[0]);
+          }else{
+            alert("This browser does not support FileReader.");
+          }
+        });
+
+        $("#anh02_upload").on('change',function(){
+          if(typeof (FileReader) != "undefined"){
+            var anh02_holder = $("#anh02_holder");
+            anh02_holder.empty();
+
+            var reader = new FileReader();
+            reader.onload = function (e) {
+              $("<img />", {
+                "src": e.target.result,
+                "class": "img-thumbnail"
+              }).appendTo (anh02_holder);
+            }
+            anh02_holder.show();
+            reader.readAsDataURL($(this)[0].files[0]);
+          }else{
+            alert("This browser does not support FileReader.");
+          }
+        });
+
+        $("#anh03_upload").on('change',function(){
+          if(typeof (FileReader) != "undefined"){
+            var anh03_holder = $("#anh03_holder");
+            anh03_holder.empty();
+
+            var reader = new FileReader();
+            reader.onload = function (e) {
+              $("<img />", {
+                "src": e.target.result,
+                "class": "img-thumbnail"
+              }).appendTo (anh03_holder);
+            }
+            anh03_holder.show();
+            reader.readAsDataURL($(this)[0].files[0]);
+          }else{
+            alert("This browser does not support FileReader.");
+          }
+        });
+
+        $("#anh04_upload").on('change',function(){
+          if(typeof (FileReader) != "undefined"){
+            var anh04_holder = $("#anh04_holder");
+            anh04_holder.empty();
+
+            var reader = new FileReader();
+            reader.onload = function (e) {
+              $("<img />", {
+                "src": e.target.result,
+                "class": "img-thumbnail"
+              }).appendTo (anh04_holder);
+            }
+            anh04_holder.show();
+            reader.readAsDataURL($(this)[0].files[0]);
+          }else{
+            alert("This browser does not support FileReader.");
+          }
+        });
+
+      });
+
+      $(".button_clear_img").on('click',function(){
+        var $button = $(this);
+        var name_anh = $button.parent().parent().find("input").attr("name");
+        $button.parent().parent().find(".upload_img").val("");
+        $button.parent().parent().find(".img_holder").empty();
+        $button.parent().find(".hidden").val("null");
+        $button.parent().parent().find(".img_holder").html(
+          `<label for="${name_anh}">
+            <img src="http://placehold.it/200x200" alt="anhchinh" class="img-thumbnail" >
+          </label>`
+        );
+      });
+
+    </script>
+
+</body>
+
+</html>

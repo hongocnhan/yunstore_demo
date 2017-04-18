@@ -1,0 +1,46 @@
+<!-- Paging -->
+
+$('#pagination_keyboard').twbsPagination({
+    totalPages: <%= totalPage_Keyboard %>,
+    visiblePages: 3,
+    first:'&laquo;',
+    prev: '&lt;',
+    next: '&gt;',
+    last: '&raquo;',
+    hrefVariable: '{{pageNumber}}',
+    onPageClick: function (event, page) {
+      $.get(`/paging_homepage_keyboard/${page}`, data => {
+        $('#show_keyboard').hide().html(data).fadeIn(2500);
+      });
+    }
+});
+
+$('#pagination_mouse').twbsPagination({
+    totalPages: <%= totalPage_Mouse %>,
+    visiblePages: 3,
+    first:'&laquo;',
+    prev: '&lt;',
+    next: '&gt;',
+    last: '&raquo;',
+    hrefVariable: '{{pageNumber}}',
+    onPageClick: function (event, page) {
+      $.get(`/paging_homepage_mouse/${page}`, data => {
+        $('#show_mouse').hide().html(data).fadeIn(2500);
+      });
+    }
+});
+
+$('#pagination_headphone').twbsPagination({
+    totalPages: <%= totalPage_Headphone %>,
+    visiblePages: 3,
+    first:'&laquo;',
+    prev: '&lt;',
+    next: '&gt;',
+    last: '&raquo;',
+    hrefVariable: '{{pageNumber}}',
+    onPageClick: function (event, page) {
+      $.get(`/paging_homepage_headphone/${page}`, data => {
+        $('#show_headphone').hide().html(data).fadeIn(2500);
+      });
+    }
+});

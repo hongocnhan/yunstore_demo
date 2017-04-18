@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>YunStore - Trang quản trị</title>
+    <base href="/" >
+    <!-- Bootstrap Core CSS -->
+    <link href="../quantri/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="../quantri/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- DataTables CSS -->
+    <link href="../quantri/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="../quantri/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../quantri/dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="../quantri/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+  <div id="wrapper">
+
+  <% include side_menu_header %>
+
+  <!-- Page Content -->
+  <div id="page-wrapper">
+      <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-12">
+              <h2 class="page-header">Nhà sản xuất  \  <%= categories_seo %> </h2>
+              <div class="col-lg-12">
+                <ul class="nav nav-pills">
+                  <li class="active"><a data-toggle="tab" href="#categories_table">Danh mục nhà sản xuất</a></li>
+                  <li><a data-toggle="tab" href="#categories_add">Tạo tên nhà sản xuất</a></li>
+                </ul>
+              <hr>
+              </div>
+              <div class="tab-content">
+                <div class="tab-pane fade in active" id="categories_table" >
+                  <div class="col-lg-12">
+                    <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-categories">
+                      <thead>
+                        <tr>
+                          <th width="8%" >ID</th>
+                          <th >Tên</th>
+                          <th width="5%" ></th>
+                          <th width="5%" ></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <%
+                          arrayTrade_Product.forEach(function(e) {
+                            %>
+                              <tr>
+                                <td class="text-center"><%= e.id %></td>
+                                <td><%= e.tennhasx %></td>
+                                <td class="center" style="text-align: center;" >
+                                    <a class="btn btn-lg btn-inline" data-toggle="modal" data-target="#edit_<%= e.id %>"><span class="glyphicon glyphicon-edit"></span></a>
+                                    <!-- Modal -->
+                                    <div id="edit_<%= e.id %>" class="modal fade" role="dialog">
+                                      <div class="modal-dialog">
+
+                                        <!-- Modal content-->
+                                        <form class="form-update-trademark" action="/admin/trademark_update" method="post" autocomplete="off" >
+                                            <div class="modal-content" >
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                    <h4 class="modal-title">Sửa tên thương hiệu - <strong><%= e.tennhasx %></strong></h4>
+                                                </div>
+                                                <div class="modal-body" >
+                                                    <div class="form-group">
+                                                        <div class="col-sm-12">
+                                                            <input type="text" class="form-control" name="name_trademark_update" id="name_trademark_update" value="<%= e.tennhasx %>" >
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-warning" name="btn_update_trademark">Xác nhận</button>
+                                                    <input type="text" class="hidden" name="curr_trademark_id" value="<%= e.id %>" >
+                                                    <input type="text" class="hidden" name="curr_categories_id" value="<%= categories_id %>" >
+                                                    <input type="text" class="hidden" name="curr_categories_seo" value="<%= categories_seo %>" >
+                                                </div>
+                                            </div>
+                                        </form>
+                                      </div>
+                                    </div>
+                                </td>
+                                <td class="center" style="text-align: center;">
+                                    <a class="btn btn-lg btn-inline" data-toggle="modal" data-target="#del_<%= e.id %>"><span class="glyphicon glyphicon-trash"></span></a>
+                                    <!-- Modal -->
+                                    <div id="del_<%= e.id %>" class="modal fade" role="dialog">
+                                      <div class="modal-dialog">
+
+                                        <!-- Modal content-->
+                                        <div class="modal-content">
+                                          <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <h4 class="modal-title">Xác nhận xóa - <strong><%= e.tennhasx %></strong></h4>
+                                          </div>
+                                          <div class="modal-body">
+                                              <form action="/admin/trademark_del_all" method="post">
+                                                <button type="submit" class="btn btn-warning" name="btn_del_all">Xóa tất cả</button>
+                                                <input type="text" class="hidden" name="curr_id_trademark" value="<%= e.id %>" >
+                                                <input type="text" class="hidden" name="curr_categories_id" value="<%= categories_id %>" >
+                                                <input type="text" class="hidden" name="curr_categories_seo" value="<%= categories_seo %>" >
+                                              </form>
+                                          <div style="height: 10px;"></div>
+                                          <div class="modal-footer" style="text-align: left;">
+                                            <ul>
+                                              <li><strong>Xóa tất cả: </strong> Xóa thương hiệu và sản phẩm liên quan</li>
+                                            </ul>
+                                          </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </td>
+                              </tr>
+                            <%
+                          })
+                        %>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="categories_add" >
+                  <div class="col-lg-12">
+                    <form id="form-add-trademark" class="form-horizontal" action="/admin/trademark_add" method="post" autocomplete="off" >
+                      <div class="form-group">
+                        <label class="col-sm-2 control-label">Tên thượng hiệu:</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="new_trademark_name" name="new_trademark_name" autofocus >
+                          <input type="text" class="hidden" name="parent_name_cat_seo" value="<%= categories_seo %>">
+                          <input type="text" class="hidden" name="parent_name_cat_id" value="<%= categories_id %>">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="col-sm-10 col-sm-offset-2" >
+                          <button type="submit" class="btn btn-md btn-info" name="btn_save" id="btn_save" >
+                            <span class="glyphicon glyphicon-floppy-saved"></span> Lưu
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+  </div>
+  <!-- End Page Content -->
+
+  </div>
+  <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="../quantri/vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../js/validator/jquery.validate.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../quantri/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- DataTables JavaScript -->
+    <script src="../quantri/vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="../quantri/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="../quantri/vendor/datatables-responsive/dataTables.responsive.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="../quantri/vendor/metisMenu/metisMenu.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="../quantri/dist/js/sb-admin-2.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+
+        $('#dataTables-categories').DataTable({
+            responsive: true
+        });
+
+        // validator
+        $("#form-add-trademark").validate({
+          rules: {
+            new_cat_name: {
+              required: true,
+              minlength: 3
+            }
+          },
+          messages: {
+            new_cat_name: {
+              required: "Chưa nhập tên nhóm hàng",
+              minlength: "Tối thiểu 3 ký tự"
+            }
+          },
+          errorElement: "em",
+          errorPlacement: function ( error, element ) {
+            // Add the `help-block` class to the error element
+            error.addClass( "help-block" );
+
+            // Add `has-feedback` class to the parent div.form-group
+            // in order to add icons to inputs
+            element.parents( ".col-sm-10" ).addClass( "has-feedback" );
+
+            error.insertAfter( element );
+
+            // Add the span element, if doesn't exists, and apply the icon classes to it.
+            if ( !element.next( "span" )[ 0 ] ) {
+              $( "<span class='glyphicon glyphicon-remove form-control-feedback'></span>" ).insertAfter( element );
+            }
+          },
+          success: function ( label, element ) {
+            // Add the span element, if doesn't exists, and apply the icon classes to it.
+            if ( !$( element ).next( "span" )[ 0 ] ) {
+              $( "<span class='glyphicon glyphicon-ok form-control-feedback'></span>" ).insertAfter( $( element ) );
+            }
+          },
+          highlight: function ( element, errorClass, validClass ) {
+            $( element ).parents( ".col-sm-10" ).addClass( "has-error" ).removeClass( "has-success" );
+            $( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
+          },
+          unhighlight: function ( element, errorClass, validClass ) {
+            $( element ).parents( ".col-sm-10" ).addClass( "has-success" ).removeClass( "has-error" );
+            $( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
+          }
+        });
+
+      });
+
+    </script>
+
+</body>
+
+</html>

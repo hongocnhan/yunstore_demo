@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>YunStore - Login</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../quantri/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../quantri/dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="../quantri/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Đăng nhập</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form id="form-dangnhap" class="form-horizontal" role="form" action="/admin/login" autocomplete="off" method="POST" >
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                  <input class="form-control" placeholder="E-mail..." name="email" id="email" type="text" autofocus >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                  <input class="form-control" placeholder="Password..." name="passwd" id="passwd" type="password" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                              <div class="col-sm-12 col-md-12 col-lg-12">
+                                <button type="submit" class="btn btn-lg btn-success btn-block">Đăng nhập</button>
+                                <%# <a href="quantri.html" class="btn btn-lg btn-success btn-block">Đăng nhập</a>%>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <div class="col-sm-12 col-md-12 col-lg-12" >
+                                <div class="checkbox">
+                                    <label>
+                                        <input name="remember" type="checkbox" value="Remember Me">
+                                        Ghi nhớ mật khẩu
+                                    </label>
+                                </div>
+                              </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="../quantri/vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../quantri/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../js/validator/jquery.validate.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function() {
+
+        // validator
+        $("#form-dangnhap").validate({
+          rules: {
+            email: {
+              required: true,
+              email: true,
+              minlength:9
+            },
+            passwd: {
+              required: true,
+              minlength: 3,
+            }
+          },
+          messages: {
+            email: "Địa chỉ email không hợp lệ",
+            passwd: {
+              required: "Xin nhập mật khẩu",
+              minlength: "Mật khẩu ít nhấp 3 ký tự"
+            }
+          },
+          errorElement: "em",
+          errorPlacement: function ( error, element ) {
+            // Add the `help-block` class to the error element
+            error.addClass( "help-block" );
+
+            // Add `has-feedback` class to the parent div.form-group
+            // in order to add icons to inputs
+            element.parents( ".col-sm-12" ).addClass( "has-feedback" );
+
+            error.insertAfter( element );
+
+            // Add the span element, if doesn't exists, and apply the icon classes to it.
+            if ( !element.next( "span" )[ 0 ] ) {
+              $( "<span class='glyphicon glyphicon-remove form-control-feedback'></span>" ).insertAfter( element );
+            }
+          },
+          success: function ( label, element ) {
+            // Add the span element, if doesn't exists, and apply the icon classes to it.
+            if ( !$( element ).next( "span" )[ 0 ] ) {
+              $( "<span class='glyphicon glyphicon-ok form-control-feedback'></span>" ).insertAfter( $( element ) );
+            }
+          },
+          highlight: function ( element, errorClass, validClass ) {
+            $( element ).parents( ".col-sm-12" ).addClass( "has-error" ).removeClass( "has-success" );
+            $( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
+          },
+          unhighlight: function ( element, errorClass, validClass ) {
+            $( element ).parents( ".col-sm-12" ).addClass( "has-success" ).removeClass( "has-error" );
+            $( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
+          }
+        });
+      })
+    </script>
+
+</body>
+
+</html>

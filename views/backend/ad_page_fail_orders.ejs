@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>YunStore - Trang quản trị</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../quantri/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="../quantri/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- DataTables CSS -->
+    <link href="../quantri/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="../quantri/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../quantri/dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="../quantri/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+<%
+
+  // Add commas as thousand separators
+  function numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
+  function showTime_(d_time) {
+    var d_time = new Date(d_time);
+    var d = d_time.getDate();
+    var m = d_time.getMonth() + 1;
+    var y = d_time.getFullYear();
+    return d + '-' + m + '-' + y;
+  }
+%>
+
+</head>
+
+<body>
+
+  <div id="wrapper">
+
+  <% include side_menu_header %>
+
+  <!-- Page Content -->
+  <div id="page-wrapper">
+      <div class="container-fluid">
+          <div class="row">
+              <div class="col-lg-12">
+                  <h1 class="page-header">Đơn hàng</h1>
+                  <div class="col-lg-12">
+                      <ul class="nav nav-pills">
+                          <li><a href="/admin/orders">Tất cả đơn hàng</a></li>
+                          <li><a href="/admin/new_orders">Đơn hàng mới</a></li>
+                          <li><a href="/admin/running_orders">Đơn hàng đang xử lý</a></li>
+                          <li><a href="/admin/success_orders">Đơn hàng thành công</a></li>
+                          <li class="active" ><a href="/admin/fail_orders">Đơn hàng hủy</a></li>
+                      </ul>
+                  <hr>
+                  </div>
+                  <div class="col-lg-12">
+                      <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-FailOrders">
+                          <thead>
+                              <tr>
+                                  <th width="10%">Mã Order</th>
+                                  <th width="">Tên KH</th>
+                                  <th width="12%">Ngày đặt</th>
+                                  <th width="17%">TT thanh toán</th>
+                                  <th width="15%">TT đơn hàng</th>
+                                  <th width="10%">Số tiền</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                            <%
+                              arrayFailOrder.forEach(function(e) {
+                                %>
+                                  <tr>
+                                    <td><a href="/admin/detail_order/<%= e.madonhang %>"><strong><%= e.madonhang %></strong></a></td>
+                                    <td>
+                                      <%= e.tenkhachhang %>
+                                      <h6><em><%= e.emailkhachhang %></em></h6>
+                                    </td>
+                                    <td style="text-align: center;">
+                                      <%= showTime_(e.ngaybatdau) %>
+                                    </td>
+                                    <%
+                                      if (e.trangthaithanhtoan == 1) {
+                                        %><td style="text-align: center;" >Chưa thanh toán</td><%
+                                      } else if (e.trangthaithanhtoan == 2) {
+                                                %><td style="text-align: center;" >Đã thanh toán</td><%
+                                              } else {
+                                                %><td style="text-align: center;" >Hoàn lại tiền</td><%
+                                              }
+                                      if (e.trangthaidonhang == 1) {
+                                        %><td style="text-align: center;" >Chưa xử lý</td><%
+                                      } else if (e.trangthaidonhang == 2) {
+                                                %><td style="text-align: center;" >Đang giao hàng</td><%
+                                              } else if (e.trangthaidonhang == 3) {
+                                                        %><td style="text-align: center;" >Đã giao hàng</td><%
+                                                      } else {
+                                                        %><td style="text-align: center;" >Đơn hàng hủy</td><%
+                                                      }
+                                    %>
+                                    <td style="text-align: center;"><%= numberWithCommas(e.tongtien) %></td>
+                                  </tr>
+                                <%
+                              })
+                            %>
+                          </tbody>
+                      </table>
+                  <hr>
+                </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- End Page Content -->
+
+  </div>
+  <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="../quantri/vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../quantri/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="../quantri/vendor/metisMenu/metisMenu.min.js"></script>
+
+    <!-- DataTables JavaScript -->
+    <script src="../quantri/vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="../quantri/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="../quantri/vendor/datatables-responsive/dataTables.responsive.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="../quantri/dist/js/sb-admin-2.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $('#dataTables-FailOrders').DataTable({
+            responsive: true
+        });
+      })
+    </script>
+
+</body>
+
+</html>

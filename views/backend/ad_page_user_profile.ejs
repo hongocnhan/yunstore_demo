@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>YunStore - Trang quản trị</title>
+    <base href="/">
+    <!-- Bootstrap Core CSS -->
+    <link href="./quantri/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="./quantri/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Bootstrap datepicker CSS -->
+    <link href="./css/datepicker-3.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="./quantri/dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="./quantri/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+      <% include side_menu_header %>
+      <div id="page-wrapper">
+          <div class="container-fluid">
+            <div class="row" id="form-update-user">
+              <div class="col-lg-12">
+                <h2 class="page-header">Thông tin tài khoản - <%= user_info.email %></h2>
+                <div class="col-lg-12">
+                  <form class="form-horizontal" action="/admin/user_profile_update" id="form-user-info" method="post" autocomplete="off" >
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Tên(*):</label>
+                        <div class="col-sm-10">
+                            <input class="form-control info_cus" type="text" name="username" id="username" value="<%= user_info.name %>" disabled />
+                            <input type="hidden" id="id_cus" name="id_cus" value="<%= user_info.id %>">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Ngày sinh:</label>
+                        <div class="col-sm-10">
+                            <div class="info_cus" id="datepicker" data-date-end-date="0d"></div>
+                            <input type="hidden" id="datepicker_dob" name="datepicker_dob">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Giới tính:</label>
+                        <div class="col-sm-10">
+                            <%
+                              if( user_info.sex == "male" ){
+                                %>
+                                  <label class="radio-inline">
+                                  <input class="info_cus" type="radio" name="sex" id="inlineCheckbox1" value="male" disabled checked />
+                                      Nam
+                                  </label>
+                                  <label class="radio-inline">
+                                  <input class="info_cus" type="radio" name="sex" id="inlineCheckbox2" value="female" disabled />
+                                      Nữ
+                                  </label>
+                                <%
+                              }else{
+                                %>
+                                  <label class="radio-inline">
+                                  <input class="info_cus" type="radio" name="sex" id="inlineCheckbox1" value="male" disabled />
+                                      Nam
+                                  </label>
+                                  <label class="radio-inline">
+                                  <input class="info_cus" type="radio" name="sex" id="inlineCheckbox2" value="female" disabled checked />
+                                      Nữ
+                                  </label>
+                                <%
+                              }
+                            %>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Địa chỉ:</label>
+                        <div class="col-sm-10">
+                            <input class="form-control info_cus" type="text" name="diachi" id="diachi" value="<%= user_info.address %>" disabled />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Phone:</label>
+                        <div class="col-sm-10">
+                            <input class="form-control info_cus" type="text" name="dtdidong" id="dtdidong" value="<%= user_info.phonenum %>" disabled />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Email:</label>
+                        <div class="col-sm-10" style="margin-top: 8px;">
+                            <strong><%= user_info.email %></strong>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Level:</label>
+                        <div class="col-sm-10" style="margin-top: 8px;">
+                            <select class="info_cus" name="user_level" id="user_level" disabled >
+                              <option value=""> Chọn cấp </option>
+                              <option value="1"> 1 </option>
+                              <option value="2"> 2 </option>
+                              <option value="3"> 3 </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Point:</label>
+                        <div class="col-sm-10" style="margin-top: 8px;">
+                            <strong><%= user_info.point %></strong>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="form-group pull-right">
+                      <button class="btn btn-md btn-danger"  id="btn_changepasswd" type="button" >
+                          <i class="glyphicon glyphicon-lock"></i> Đổi mật khẩu
+                      </button>
+                      <button class="btn btn-md btn-warning" type="button" id="btn_chinhsua">
+                          <i class="glyphicon glyphicon-edit"></i> Chỉnh sửa
+                      </button>
+                      <button class="info_cus btn btn-md btn-primary" type="submit" id="btn_luu_update" disabled>
+                          <i class="glyphicon glyphicon-floppy-saved"></i> Lưu
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div class="row" style="height: 20px;"></div>
+            <div class="row" style="display: none;" id="form-changpasswd-user">
+              <h2 class="page-header">Thay đổi password - <%= user_info.email %></h2>
+              <div class="col-lg-12">
+                <form class="form-horizontal" action="/admin/user_profile_changepasswd" id="form-user-info-changpasswd" method="post" autocomplete="off" >
+                  <div class="form-group">
+                    <label class="col-sm-3 control-label" >Password mới:</label>
+                    <div class="col-sm-9">
+                      <input type="password" class="form-control" id="newpasswd" name="newpasswd" placeholder="Password mới..." />
+                      <input type="text" class="hidden" name="user_id_change" value="<%= user_info.id %>">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-3 control-label" >Nhập lại Password mới:</label>
+                    <div class="col-sm-9">
+                      <input type="password" class="form-control" id="reenternewpasswd" name="reenternewpasswd" placeholder="Nhập lại Password mới..." />
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="form-group pull-right">
+                    <button class="btn btn-md btn-warning" type="button" id="btn_cancel_changpasswd">
+                        <i class="glyphicon glyphicon-edit"></i> Thoát
+                    </button>
+                    <button class="btn btn-md btn-primary" type="submit" id="btn_luu_changpasswd" >
+                        <i class="glyphicon glyphicon-floppy-saved"></i> Lưu
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="./quantri/vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="./js/validator/jquery.validate.js"></script>
+
+    <!-- datepicker -->
+    <script src="./js/bootstrap-datepicker.min.js"></script>
+    <script src="./js/bootstrap-datepicker.vi.min.js"></script>
+
+    <!-- jQuery dataFormat -->
+    <script src="./js/jquery-dateFormat.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="./quantri/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="./quantri/vendor/metisMenu/metisMenu.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="./quantri/dist/js/sb-admin-2.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            $("#user_level").val(<%= user_info.level %>);
+
+            $("#btn_chinhsua").click(() => {
+                $('.info_cus').prop('disabled', false);
+            });
+
+            // add the rule here
+           $.validator.addMethod("valueNotEquals", function(value, element, arg){
+            return arg != value;
+          }, "Chưa chọn cấp người dùng.");
+
+            // validator
+            $("#form-user-info").validate({
+              rules: {
+                username: {
+                  required: true,
+                  minlength: 3
+                },
+                dtdidong: {
+                  required: true,
+                  minlength: 9,
+                  digits: true
+                },
+                user_level: {
+                  required: true,
+                  valueNotEquals: ""
+                }
+              },
+              messages: {
+                username: {
+                  required: "Chưa nhập tên người dùng",
+                  minlength: "Tối thiểu 3 ký tự"
+                },
+                dtdidong: {
+                  required: "Chưa nhập số điện thoại",
+                  minlength: "Tối thiểu 9 chữ số",
+                  digits: "Thông tin không hợp lệ"
+                },
+                user_level: "Chưa chọn cấp độ người dùng"
+              },
+              errorElement: "em",
+              errorPlacement: function ( error, element ) {
+                // Add the `help-block` class to the error element
+                error.addClass( "help-block" );
+
+                // Add `has-feedback` class to the parent div.form-group
+                // in order to add icons to inputs
+                element.parents( ".col-sm-10" ).addClass( "has-feedback" );
+
+                error.insertAfter( element );
+
+                // Add the span element, if doesn't exists, and apply the icon classes to it.
+                if ( !element.next( "span" )[ 0 ] ) {
+                  $( "<span class='glyphicon glyphicon-remove form-control-feedback'></span>" ).insertAfter( element );
+                }
+              },
+              success: function ( label, element ) {
+                // Add the span element, if doesn't exists, and apply the icon classes to it.
+                if ( !$( element ).next( "span" )[ 0 ] ) {
+                  $( "<span class='glyphicon glyphicon-ok form-control-feedback'></span>" ).insertAfter( $( element ) );
+                }
+              },
+              highlight: function ( element, errorClass, validClass ) {
+                $( element ).parents( ".col-sm-10" ).addClass( "has-error" ).removeClass( "has-success" );
+                $( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
+              },
+              unhighlight: function ( element, errorClass, validClass ) {
+                $( element ).parents( ".col-sm-10" ).addClass( "has-success" ).removeClass( "has-error" );
+                $( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
+              }
+            });
+
+            // validator
+            $("#form-user-info-changpasswd").validate({
+              rules: {
+                oldpasswd: {
+                  required: true,
+                  minlength: 3
+                },
+                newpasswd: {
+                  required: true,
+                  minlength: 3
+                },
+                reenternewpasswd: {
+                  required: true,
+                  minlength: 3,
+                  equalTo: "#newpasswd"
+                }
+              },
+              messages: {
+                oldpasswd: {
+                  required: "Xin nhập password hiện tại",
+                  minlength: "Ít nhất 3 ký tự",
+                },
+                newpasswd: {
+                  required: "Chưa nhập password mới",
+                  minlength: "Ít nhất 3 ký tự"
+                },
+                reenternewpasswd: {
+                  required: "Chưa nhập lại password mới",
+                  minlength: "Ít nhất 3 ký tự",
+                  equalTo: "Thông tin không trùng"
+                }
+              },
+              errorElement: "em",
+              errorPlacement: function ( error, element ) {
+                // Add the `help-block` class to the error element
+                error.addClass( "help-block" );
+
+                // Add `has-feedback` class to the parent div.form-group
+                // in order to add icons to inputs
+                element.parents( ".col-sm-9" ).addClass( "has-feedback" );
+
+                error.insertAfter( element );
+
+                // Add the span element, if doesn't exists, and apply the icon classes to it.
+                if ( !element.next( "span" )[ 0 ] ) {
+                  $( "<span class='glyphicon glyphicon-remove form-control-feedback'></span>" ).insertAfter( element );
+                }
+              },
+              success: function ( label, element ) {
+                // Add the span element, if doesn't exists, and apply the icon classes to it.
+                if ( !$( element ).next( "span" )[ 0 ] ) {
+                  $( "<span class='glyphicon glyphicon-ok form-control-feedback'></span>" ).insertAfter( $( element ) );
+                }
+              },
+              highlight: function ( element, errorClass, validClass ) {
+                $( element ).parents( ".col-sm-9" ).addClass( "has-error" ).removeClass( "has-success" );
+                $( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
+              },
+              unhighlight: function ( element, errorClass, validClass ) {
+                $( element ).parents( ".col-sm-9" ).addClass( "has-success" ).removeClass( "has-error" );
+                $( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
+              }
+            });
+
+            $('#datepicker').datepicker({
+                language: "vi",
+                format: 'yyyy/mm/dd',
+                startDate: '1950/01/01',
+            });
+            $('#datepicker').datepicker('update', $.format.date('<%= user_info.dob %>', 'yyyy/MM/dd'));
+            $('#datepicker_dob').val($.format.date('<%= user_info.dob %>', 'yyyy/MM/dd'));
+            $('#datepicker').on('changeDate', function() {
+                $('#datepicker_dob').val(
+                    $('#datepicker').datepicker('getFormattedDate')
+                );
+            });
+
+            $("#btn_changepasswd").on('click',function(e) {
+              $("#form-update-user").hide(300);
+              $("#form-changpasswd-user").show(300);
+            })
+
+            $("#btn_cancel_changpasswd").on('click',function(e) {
+              $("#form-update-user").show(300);
+              $("#form-changpasswd-user").hide(300);
+            })
+
+        });
+    </script>
+
+</body>
+
+</html>

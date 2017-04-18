@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>YunStore - Gaming Gear</title>
+    <%# <base href="/">%>
+
+    <!-- typeahead CSS -->
+    <link href="css/typeahead-searchbar.css" rel="stylesheet">
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/shop-homepage.css" rel="stylesheet">
+    <link href="quantri/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+  <!-- Header -->
+  <% include header_ui %>
+  <!-- End Header -->
+
+  <div class="container">
+
+    <!-- Carousel Content -->
+    <% include carousel_ui %>
+
+    <div class="well well-sm"><b>Sản Phẩm HOT</b></div>
+    <div class="row">
+      <% include HotProduct_HomePage_slice %>
+    </div>
+    <a href="/categories/ban-phim"><div class="well well-sm"><b>BÀN PHÍM</b></div></a>
+    <div class="row">
+      <!-- San pham -->
+      <div class="col-sm-12 col-md-12 col-lg-12" id="show_keyboard">
+          Show Keyboard
+      </div>
+      <!-- End San pham -->
+      <hr>
+      <div class="col-sm-12 col-md-12 col-lg-12 text-center">
+        <ul id="pagination_keyboard"></ul>
+      </div>
+    </div>
+    <!-- End Content Ban phim -->
+    <!-- Content Ban chuot -->
+    <a href="/categories/chuot"><div class="well well-sm"><b>CHUỘT GAME</b></div></a>
+    <div class="row">
+      <!-- San pham -->
+      <div class="col-sm-12 col-md-12 col-lg-12" id="show_mouse">
+          Show Mouse
+      </div>
+      <!-- End San pham -->
+      <hr>
+      <div class="col-sm-12 col-md-12 col-lg-12 text-center">
+        <ul id="pagination_mouse"></ul>
+      </div>
+    </div>
+    <!-- End Content chuot -->
+    <!-- Content Tai nghe -->
+    <a href="/categories/tai-nghe"><div class="well well-sm"><b>TAI NGHE</b></div></a>
+    <div class="row">
+      <!-- San pham -->
+      <div class="col-sm-12 col-md-12 col-lg-12" id="show_headphone">
+          Show Headphone
+      </div>
+      <!-- End San pham -->
+      <hr>
+      <div class="col-sm-12 col-md-12 col-lg-12 text-center">
+        <ul id="pagination_headphone"></ul>
+      </div>
+    </div>
+    <!-- End Content Tai nghe -->
+
+
+
+  </div>
+  <!-- /.container Page Content -->
+
+  <!-- Footer -->
+  <% include footer_ui %>
+  <!-- End Footer-->
+
+  <!-- jQuery -->
+  <script src="js/jquery-3.1.1.min.js"></script>
+
+  <!-- jQuery typeahead -->
+  <script src="js/typeahead.bundle.js"></script>
+
+  <!-- jQuery TwbsPagination -->
+  <script src="js/jquery.twbsPagination.js"></script>
+
+  <!-- Bootstrap Core JavaScript -->
+  <script src="js/bootstrap.min.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+
+      // scriptCode
+      <% include scriptCode %>
+
+      // script_homepage
+      <% include script_index %>
+
+    })
+  </script>
+</body>
+
+</html>

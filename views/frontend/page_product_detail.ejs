@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>YunStore - Gaming Gear</title>
+    <base href="/">
+    <!-- typeahead CSS -->
+    <link href="../css/typeahead-searchbar.css" rel="stylesheet">
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../css/shop-homepage.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="../css/carousel_chitietsp.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <%
+        // Add commas as thousand separators
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+    %>
+
+</head>
+
+<body>
+
+  <!-- Header -->
+  <% include header_ui %>
+  <!-- End Header -->
+
+  <!-- Page Content -->
+  <div class="container">
+    <div class="row">
+      <!-- Anh san pham -->
+      <div class="col-sm-6 col-md-6 col-lg-6">
+        <div class="carousel slide article-slide" id="article-photo-carousel">
+
+          <!-- Wrapper for slides -->
+          <div class="carousel-inner cont-slider">
+            <%
+              if(Item_product.anh_01 != 'null'){
+                %>
+                  <div class="item active">
+                    <img alt="" title="" src="../img_/<%= Item_product.anh_01 %>">
+                  </div>
+                <%
+              }
+              if(Item_product.anh_02 != 'null'){
+                %>
+                  <div class="item">
+                    <img alt="" title="" src="../img_/<%= Item_product.anh_02 %>">
+                  </div>
+                <%
+              }
+              if(Item_product.anh_03 != 'null'){
+                %>
+                  <div class="item">
+                    <img alt="" title="" src="../img_/<%= Item_product.anh_03 %>">
+                  </div>
+                <%
+              }
+              if(Item_product.anh_04 != 'null'){
+                %>
+                  <div class="item">
+                    <img alt="" title="" src="../img_/<%= Item_product.anh_04 %>">
+                  </div>
+                <%
+              }
+            %>
+          </div>
+          <!-- Indicators -->
+          <ol class="carousel-indicators">
+            <%
+              if(Item_product.anh_01 != 'null'){
+                %>
+                  <li class="active" data-slide-to="0" data-target="#article-photo-carousel">
+                    <img alt="" src="../img_/<%= Item_product.anh_01 %>">
+                  </li>
+                <%
+              }
+              if(Item_product.anh_02 != 'null'){
+                %>
+                  <li class="" data-slide-to="1" data-target="#article-photo-carousel">
+                    <img alt="" src="../img_/<%= Item_product.anh_02 %>">
+                  </li>
+                <%
+              }
+              if(Item_product.anh_03 != 'null'){
+                %>
+                  <li class="" data-slide-to="2" data-target="#article-photo-carousel">
+                    <img alt="" src="../img_/<%= Item_product.anh_03 %>">
+                  </li>
+                <%
+              }
+              if(Item_product.anh_04 != 'null'){
+                %>
+                  <li class="" data-slide-to="3" data-target="#article-photo-carousel">
+                    <img alt="" src="../img_/<%= Item_product.anh_04 %>">
+                  </li>
+                <%
+              }
+            %>
+          </ol>
+        </div>
+      </div>
+        <!-- End Anh san pham-->
+      <div class="col-sm-6 col-md-6 col-lg-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title text-uppercase"><b><%= Item_product.tensanpham %></b></h3>
+          </div>
+          <div class="panel-body">
+            <h4><b>Hãng sản xuất: </b><span class="text-capitalize"><%= Item_product.tennhasx_seo %></span</h4>
+            <h4><b>Bảo hành: </b><span class="text-capitalize"><%= Item_product.baohanh %></span></h4>
+            <h4><b>Tình trạng: </b><span class="text-capitalize"><%= Item_product.tinhtrang %></span></h4>
+            <h4 id="gia_thuong"><b>Giá: </b><%= numberWithCommas(Item_product.gia_thuong) %> đ</h4>
+            <div id="gia_km" class="NumberGia_NoneDisplay">
+              <h4><b>Giá KM: </b><%= numberWithCommas(Item_product.gia_km) %> đ</h4>
+              <h4 style="color: black;"><small>
+                <i>*Thời gian khuyến mãi từ <span id="km_tungay"></span> đến hết <span id="km_denngay"></span>*</i>
+              </small></h4>
+            </div>
+            <hr>
+
+            <%
+              let date_to = new Date(Item_product.km_denngay);
+              date_to.setHours(date_to.getHours() + 23);
+              if(Date.parse(Item_product.km_tungay) <= Date.now() &&
+                  Date.parse(date_to) >= Date.now()){
+                %>
+                  <button class="add_to_cart btn btn-danger btn-lg" id="<%= Item_product.id %>" data-img_="<%= Item_product.anh_01 %>"
+                    data-name="<%= Item_product.tensanpham %>" data-name_seo="<%= Item_product.tensanpham_seo %>" data-gia="<%= Item_product.gia_km %>"><b>MUA HÀNG</b></button>
+                <%
+              }else{
+                %>
+                  <button class="add_to_cart btn btn-danger btn-lg" id="<%= Item_product.id %>" data-img_="<%= Item_product.anh_01 %>"
+                    data-name="<%= Item_product.tensanpham %>" data-name_seo="<%= Item_product.tensanpham_seo %>" data-gia="<%= Item_product.gia_thuong %>"><b>MUA HÀNG</b></button>
+                <%
+              }
+
+            %>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-sm-12 col-md-12 col-lg-12">
+        <ul class="nav nav-tabs">
+          <li class="active"><a data-toggle="tab" href="#thongtinsp">Thông tin sản phẩm</a></li>
+          <li><a data-toggle="tab" href="#nhanxet">Comment</a></li>
+        </ul>
+
+        <div class="tab-content">
+          <div id="thongtinsp" class="tab-pane fade in active">
+            <h3><%= Item_product.tensanpham %></h3>
+            <p><%- Item_product.noidung_dai %></p>
+          </div>
+          <div id="nhanxet" class="tab-pane fade">
+            <h3>Comment người dùng</h3>
+            <p>Some content in menu 2.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.container -->
+
+  <!-- Footer -->
+  <% include footer_ui %>
+  <!-- End Footer -->
+
+  <!-- jQuery -->
+  <script src="../js/jquery-3.1.1.min.js"></script>
+
+  <!-- jQuery typeahead -->
+  <script src="js/typeahead.bundle.js"></script>
+
+  <!-- jQuery dataFormat -->
+  <script src="../js/jquery-dateFormat.min.js"></script>
+
+  <!-- Bootstrap Core JavaScript -->
+  <script src="../js/bootstrap.min.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+
+      <% include scriptCode %>
+
+      $('#km_tungay').html($.format.date('<%= Item_product.km_tungay %>', 'dd/MM/yyyy'));
+      $('#km_denngay').html($.format.date('<%= Item_product.km_denngay %>', 'dd/MM/yyyy'));
+
+      <%
+      if( Date.parse(Item_product.km_tungay) <= Date.now() &&
+          Date.parse(date_to) >= Date.now())
+      {
+      %>
+        $('#gia_thuong').addClass('NumberGia_LineThrough');
+        $('#gia_km').removeClass('NumberGia_NoneDisplay');
+      <%}%>
+
+  });
+  </script>
+
+</body>
+
+</html>

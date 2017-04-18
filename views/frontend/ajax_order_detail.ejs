@@ -1,0 +1,12 @@
+<%
+  // Add commas as thousand separators
+  function numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
+  order_detail.forEach(function(e) {
+    %>
+        <li><strong><%= e.tensanpham %></strong> \ <strong>Số lượng: <%= e.soluong %></strong> \ <strong>Giá tiền: <%= numberWithCommas(e.dongia) %> đ</strong></li>
+    <%
+  });
+%>

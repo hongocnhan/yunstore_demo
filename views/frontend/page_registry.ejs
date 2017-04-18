@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>YunStore - Đăng ký tài khoản</title>
+
+
+    <!-- typeahead CSS -->
+    <link href="css/typeahead-searchbar.css" rel="stylesheet">
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap datepicker CSS -->
+    <link href="css/datepicker-3.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/shop-homepage.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <!-- Header -->
+    <% include header_ui %>
+    <!-- End Header -->
+
+    <!-- Page Content -->
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
+          <div class="well well-lg">
+            <legend><a href="#"><i class="glyphicon glyphicon-globe"></i></a> Đăng ký tài khoản</legend>
+            <form action="/registry" method="post" class="form-horizontal" role="form" id="form-dangky" autocomplete="off" >
+              <div class="form-group">
+                <label class="col-sm-3 control-label" >Tên(*):</label>
+                <div class="col-sm-9">
+                  <input class="form-control" name="name" id="name" placeholder="Tên..." type="text" autofocus />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label" >Email(*):</label>
+                <div class="col-sm-9">
+                  <input class="form-control" name="email" id="email" placeholder="Địa chỉ email..." type="text" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label" >Nhập lại email(*):</label>
+                <div class="col-sm-9">
+                  <input class="form-control" name="reenteremail" id="reenteremail" placeholder="Nhập lại địa chỉ email..." type="text" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label" >Password(*):</label>
+                <div class="col-sm-9">
+                  <input class="form-control" name="password" id="password" placeholder="Mật khẩu..." type="password" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label" >Nhập lại Password(*):</label>
+                <div class="col-sm-9">
+                  <input class="form-control" name="reenterpassword" id="reenterpassword" placeholder="Nhập lại mật khẩu..." type="password" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label" >Địa chỉ:</label>
+                <div class="col-sm-9">
+                  <input class="form-control" name="diachi" id="diachi" placeholder="Địa chỉ..." type="text" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label" >Số điện thoại(*):</label>
+                <div class="col-sm-9">
+                  <input class="form-control" name="dtdidong" id="dtdidong" placeholder="Số điện thoại..." type="text" />
+                </div>
+              </div>
+              <input type="hidden" id="datepicker_dob" name="datepicker_dob">
+              <br>
+              <div class="row">
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Đăng ký</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Content -->
+
+    <!-- Footer -->
+    <% include footer_ui %>
+    <!-- End Footer-->
+
+    <!-- jQuery -->
+    <script src="js/jquery-3.1.1.min.js"></script>
+
+    <!-- jQuery typeahead -->
+    <script src="js/typeahead.bundle.js"></script>
+
+    <!-- jQuery dataFormat -->
+    <script src="js/jquery-dateFormat.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/validator/jquery.validate.js"></script>
+
+    <%# <!-- datepicker -->
+    <script src="js/bootstrap-datepicker.min.js"></script>
+    <script src="js/bootstrap-datepicker.vi.min.js"></script>%>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+
+        // scriptCode
+        <% include scriptCode %>
+
+        // $('#datepicker').datepicker({
+        //   language: "vi",
+        //   format: 'yyyy/mm/dd',
+        //   startDate: '1950/01/01',
+        //   todayHighlight: true
+        // });
+        $('#datepicker_dob').val($.format.date(new Date(), 'yyyy/MM/dd'));
+        // $('#datepicker').on('changeDate', function() {
+        //     $('#datepicker_bod').val(
+        //         $('#datepicker').datepicker('getFormattedDate')
+        //     );
+        // });
+
+        // validator
+        $("#form-dangky").validate({
+          rules: {
+            name: {
+              required: true,
+              minlength: 3
+            },
+            email: {
+              required: true,
+              email: true,
+              minlength:9,
+              remote: {
+                url: "/admin/check_new_email",
+                type: "post",
+                data: {
+                  email: function() {
+                    return $("#email").val();
+                  }
+                }
+              }
+            },
+            reenteremail: {
+              required: true,
+              email: true,
+              equalTo: "#email"
+            },
+            password: {
+              required: true,
+              minlength: 3,
+            },
+            reenterpassword: {
+              required: true,
+              minlength: 3,
+              equalTo: "#password"
+            },
+            dtdidong: {
+              required: true,
+              minlength: 9,
+              maxlength: 12,
+              digits: true
+            }
+          },
+          messages: {
+            name: {
+              required: "Chưa nhập tên",
+              minlength: "Tối thiểu 3 ký tự"
+            },
+            email: {
+              required: "Chưa nhập địa chỉ email",
+              email: "Địa chỉ email không hợp lệ",
+              minlength: "Tối thiểu 9 ký tự",
+              remote: "Email đã sử dụng"
+            },
+            reenteremail: {
+              required: "Chưa nhập lại địa chỉ email",
+              email: "Địa chỉ email không hợp lệ",
+              equalTo: "Thông tin không trùng khớp"
+            },
+            password: {
+              required: "Chưa nhập mật khẩu",
+              minlength: "Tối thiểu 3 ký tự",
+            },
+            reenterpassword: {
+              required: "Chưa nhập lại mật khẩu",
+              minlength: "Tối thiểu 3 ký tự",
+              equalTo: "Password không khớp"
+            },
+            dtdidong: {
+              required: "Chưa nhập số điện thoại",
+              minlength: "Tối thiểu 9 chữ số",
+              maxlength: "Tối đa 12 chữ số",
+              digits: "Dữ liệu không hợp lệ"
+            }
+          },
+          errorElement: "em",
+          errorPlacement: function ( error, element ) {
+            // Add the `help-block` class to the error element
+            error.addClass( "help-block" );
+
+            // Add `has-feedback` class to the parent div.form-group
+            // in order to add icons to inputs
+            element.parents( ".col-sm-9" ).addClass( "has-feedback" );
+
+            error.insertAfter( element );
+
+            // Add the span element, if doesn't exists, and apply the icon classes to it.
+            if ( !element.next( "span" )[ 0 ] ) {
+              $( "<span class='glyphicon glyphicon-remove form-control-feedback'></span>" ).insertAfter( element );
+            }
+          },
+          success: function ( label, element ) {
+            // Add the span element, if doesn't exists, and apply the icon classes to it.
+            if ( !$( element ).next( "span" )[ 0 ] ) {
+              $( "<span class='glyphicon glyphicon-ok form-control-feedback'></span>" ).insertAfter( $( element ) );
+            }
+          },
+          highlight: function ( element, errorClass, validClass ) {
+            $( element ).parents( ".col-sm-9" ).addClass( "has-error" ).removeClass( "has-success" );
+            $( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
+          },
+          unhighlight: function ( element, errorClass, validClass ) {
+            $( element ).parents( ".col-sm-9" ).addClass( "has-success" ).removeClass( "has-error" );
+            $( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
+          }
+        });
+
+        $('#dangky').remove();
+
+
+      })
+    </script>
+
+</body>
+
+</html>

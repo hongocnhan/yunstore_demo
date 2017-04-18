@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>YunStore - Login</title>
+
+    <!-- typeahead CSS -->
+    <link href="css/typeahead-searchbar.css" rel="stylesheet">
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/shop-homepage.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+  <!-- Header -->
+  <% include header_ui %>
+  <!-- End Header -->
+
+  <div class="container">
+      <div class="row">
+          <div class="col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
+              <div class="panel panel-default">
+                  <div class="panel-heading"><h4>Đăng nhập bằng</h4></div>
+                      <div class="panel-body">
+                      <div class="row">
+                          <div class="col-sm-6 col-md-6 col-lg-6" style="margin-top: 3px;">
+                              <button type="button" class="btn btn-default btn-block" title="Facebook" style="color: white; background: #3b5998">
+                              <i class="fa fa-facebook fa-2x"></i>
+                              </button>
+                          </div>
+                          <div class="col-sm-6 col-md-6 col-lg-6" style="margin-top: 3px;">
+                              <button type="button" class="btn btn-default btn-block" title="Twitter" style="color: white; background: #00aced">
+                                  <i class="fa fa-twitter fa-2x"></i>
+                              </button>
+                          </div>
+                      </div>
+                      <hr>
+                      <h4 style="text-align: center;"><i>Hoặc</i></h4>
+                      <hr>
+                          <div class="row">
+                              <div class="col-sm-12 col-md-12 col-lg-12">
+                                <form id="form-dangnhap" class="form-horizontal" action="/login" autocomplete="off" method="POST">
+                                    <div class="form-group">
+                                      <label class="col-sm-2 control-label" >Email</label>
+                                      <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="email" name="email" placeholder="Email address..." />
+                                      </div>
+                                    </div>
+                                    <div class="form-group">
+                                      <label class="col-sm-2 control-label" >Password</label>
+                                      <div class="col-sm-10">
+                                        <input type="password" class="form-control" id="passwd" name="passwd" placeholder="Password..." />
+                                      </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                      <div class="col-sm-12 col-md-12 col-lg-12">
+                                        <button type="submit" class="btn btn-md btn-primary pull-right" name="submit" value="Sign up">Đăng nhập</button>
+                                      </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <label class="checkbox">
+                                            <input id="save-info-cus" type="checkbox" name="remember_me">Ghi nhớ mật khẩu
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-6">
+                                        <p style="text-align: right; margin-top:10px;">
+                                            <a href="/forgotpasswd">Quên mật khẩu?</a>
+                                        </p>
+                                    </div>
+                                </form>
+                              </div>
+                          </div>
+                      </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <!-- Footer -->
+  <% include footer_ui %>
+  <!-- End Footer-->
+
+  <!-- jQuery -->
+  <script src="js/jquery-3.1.1.min.js"></script>
+
+  <!-- jQuery typeahead -->
+  <script src="js/typeahead.bundle.js"></script>
+
+  <!-- Bootstrap Core JavaScript -->
+  <script src="js/validator/jquery.validate.js"></script>
+
+  <!-- Bootstrap Core JavaScript -->
+  <script src="js/bootstrap.min.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      // scriptCode
+      <% include scriptCode %>
+
+      // validator
+      $("#form-dangnhap").validate({
+        rules: {
+          email: {
+            required: true,
+            email: true,
+            minlength:9
+          },
+          passwd: {
+            required: true,
+            minlength: 3,
+          }
+        },
+        messages: {
+          email: "Địa chỉ email không hợp lệ",
+          passwd: {
+            required: "Xin nhập mật khẩu",
+            minlength: "Mật khẩu ít nhấp 3 ký tự"
+          }
+        },
+        errorElement: "em",
+        errorPlacement: function ( error, element ) {
+          // Add the `help-block` class to the error element
+          error.addClass( "help-block" );
+
+          // Add `has-feedback` class to the parent div.form-group
+          // in order to add icons to inputs
+          element.parents( ".col-sm-10" ).addClass( "has-feedback" );
+
+          error.insertAfter( element );
+
+          // Add the span element, if doesn't exists, and apply the icon classes to it.
+          if ( !element.next( "span" )[ 0 ] ) {
+            $( "<span class='glyphicon glyphicon-remove form-control-feedback'></span>" ).insertAfter( element );
+          }
+        },
+        success: function ( label, element ) {
+          // Add the span element, if doesn't exists, and apply the icon classes to it.
+          if ( !$( element ).next( "span" )[ 0 ] ) {
+            $( "<span class='glyphicon glyphicon-ok form-control-feedback'></span>" ).insertAfter( $( element ) );
+          }
+        },
+        highlight: function ( element, errorClass, validClass ) {
+          $( element ).parents( ".col-sm-10" ).addClass( "has-error" ).removeClass( "has-success" );
+          $( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
+        },
+        unhighlight: function ( element, errorClass, validClass ) {
+          $( element ).parents( ".col-sm-10" ).addClass( "has-success" ).removeClass( "has-error" );
+          $( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
+        }
+      });
+
+    });
+
+  </script>
+
+</body>
+
+</html>

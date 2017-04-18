@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>YunStore - Gaming Gear</title>
+    <%# <base href="/">%>
+
+    <!-- typeahead CSS -->
+    <link href="css/typeahead-searchbar.css" rel="stylesheet">
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/shop-homepage.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+  <!-- Header -->
+  <% include header_ui %>
+  <!-- End Header -->
+
+    <div class="container">
+      <div class="col-sm-12 col-md-12">
+        <h3>THANH TOÁN</></h3>
+      </div>
+      <form id="form_finish_checkout_noacc" class="form-horizontal" action="/checkout_complete" method="post" autocomplete="off" >
+        <div id="cover-div01" class="col-sm-4 col-md-4 col-lg-4 bar-right-divide" >
+            <h4 style="margin-bottom: 20px;" >1. Thông tin giao hàng</h4>
+            <div class="form-group">
+                <div class="col-sm-12">
+                  <label>Email(*):</label>
+                  <input class="form-control" placeholder="E-mail..." name="email" id="email" type="text" value="<%= email_checkout_no %>" >
+                </div>
+            </div>
+            <div class="col-sm-12">
+              <h6><em>(Thông tin đơn hàng sẽ được gửi đến email của bạn)</em></h6>
+            </div>
+            <div style="margin: 5px 0px 10px 0px;" >
+              <label>
+                <input type="checkbox" id="checkbox_create_acc" name="checkbox_create_acc" > Tạo tài khoản với thông tin được cung cấp
+              </label>
+            </div>
+            <div id="passwd_newacc" class="form-group" >
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                  <label>Tên khách hàng(*):</label>
+                  <input class="form-control" name="username" id="username" type="text" autofocus value="" >
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                  <label>Địa chỉ(*):</label>
+                  <input class="form-control" placeholder="Địa chỉ..." name="address" id="address" type="text" >
+                </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-12">
+                <label>Số điện thoại(*):</label>
+                <input class="form-control" placeholder="Số điện thoại..." name="phonenumber" id="phonenumber" type="text" >
+              </div>
+            </div>
+        </div>
+        <div id="cover-div02" class="col-sm-4 col-md-4 col-lg-4 bar-right-divide" >
+            <h4 style="margin-bottom: 20px;" >2. Thông tin xuất hóa đơn</h4>
+            <div style="margin: 5px 0px 10px 0px;" >
+              <label>
+                <input type="checkbox" checked id="checkbox_create_bill" name="checkbox_create_bill" > Thông tin như thông tin đặt hàng
+              </label>
+            </div>
+            <div id="bill_info" style="display: none;">
+              <div class="form-group">
+                  <div class="col-sm-12">
+                    <label>Tên công ty(*):</label>
+                    <input class="form-control" placeholder="Tên khách hàng..." name="company_name" id="company_name" type="text" >
+                  </div>
+              </div>
+              <div class="form-group">
+                  <div class="col-sm-12">
+                    <label>Địa chỉ(*):</label>
+                    <input class="form-control" placeholder="Địa chỉ..." name="company_address" id="company_address" type="text" >
+                  </div>
+              </div>
+              <div class="form-group">
+                  <div class="col-sm-12">
+                    <label>Mã số thuế(*):</label>
+                    <input class="form-control" placeholder="Mã số thuế..." name="tax_number" id="tax_number" type="text" >
+                  </div>
+              </div>
+            </div>
+            <h4 style="margin-bottom: 20px;" >3. Hình thức thanh toán</h4>
+            <ul>
+              <li><p> Thanh toán qua COD với khách hàng ở xa.<p></li>
+              <li><p> Thanh toán khi nhận hàng với khách hàng ở HCM.<p></li>
+            </ul>
+        </div>
+        <div class="col-sm-4 col-md-4 col-lg-4" >
+            <h4 style="margin-bottom: 20px;" >4. Đơn hàng</h4>
+            <div class="form-group">
+                <div class="col-sm-6 col-md-6">
+                  <label><span id="product_quantity"></span> sản phẩm - <button type="button" class="btn btn-sm btn-primary" name="btn_chitiet" id="btn_chitiet">Chi tiết</button></label>
+                </div>
+                <div class="col-sm-6 col-md-6 text-right">
+                  <label><span class="total_items"></span></label>
+                </div>
+            </div>
+            <div class="form-group" id="order_detail" style="display: none;">
+              <div class="col-sm-12 col-md-12" id="product_list" >
+                <div></div>
+              </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-6 col-md-6">
+                  <label>Phí giao hàng</label>
+                </div>
+                <div class="col-sm-6 col-md-6 text-right">
+                  <label>0 đ</label>
+                </div>
+            </div>
+            <hr>
+            <div class="form-group">
+                <div class="col-sm-6 col-md-6">
+                  <label><h3>Tổng tiền</h3></label>
+                </div>
+                <div class="col-sm-6 col-md-6 text-right">
+                  <label><h3><strong><div class="total_items"></div></strong></h3></label>
+                </div>
+            </div>
+            <hr>
+            <h4 style="margin-bottom: 20px;" >Ghi chú khi giao hàng</h4>
+            <div class="form-group">
+                <div class="col-sm-12">
+                  <textarea name="cus_note" style="margin: 5px 5px 5px 5px;" class='form-control' rows="4" cols="50" placeholder="Yêu cầu của khách hàng khi giao..."></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-12 col-md-12 col-lg-12" style="margin: 30px 0px 0px 0px;">
+                <button type="submit" class="btn btn-lg btn-success btn-block">ĐẶT HÀNG</button>
+              </div>
+            </div>
+            <div class="text-center">
+              <h6>Bằng việc Click nút ĐẶT HÀNG, bạn xác nhận các thông tin đã cung cấp là chính xác.</h6>
+            </div>
+        </div>
+        <div id="array_item">
+          <div></div>
+        </div>
+      </form>
+    </div>
+    <div class="container">
+      <hr>
+    </div>
+
+  <!-- Footer -->
+  <% include footer_ui %>
+  <!-- End Footer-->
+
+  <!-- jQuery -->
+  <script src="js/jquery-3.1.1.min.js"></script>
+
+  <!-- Bootstrap Core JavaScript -->
+  <script src="../js/validator/jquery.validate.js"></script>
+
+  <!-- jQuery typeahead -->
+  <script src="js/typeahead.bundle.js"></script>
+
+  <!-- jQuery TwbsPagination -->
+  <script src="js/jquery.twbsPagination.js"></script>
+
+  <!-- Bootstrap Core JavaScript -->
+  <script src="js/bootstrap.min.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+
+      function numberWithCommas(x) {
+          return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
+
+      // scriptCode
+      <% include scriptCode  %>
+
+      if (shoppingCartItems.length == 0){
+        window.location.href = "/cart";
+      }
+
+      function displayListCartItems(){
+        $("#product_list > div").html("");
+        var htmlString = "";
+
+        $.each(shoppingCartItems,function(index , item){
+          htmlString += `
+              <div class="col-sm-12 col-md-12" >
+                ${item.name}
+              </div>
+              <div class="col-sm-12 col-md-12" >
+                Số lượng: ${item.soluong}
+              </div>
+              <div class="col-sm-6 col-md-6" >
+                Đơn giá: ${numberWithCommas(item.gia)} đ
+              </div>
+              <div class="col-sm-6 col-md-6 text-right" >
+                ${numberWithCommas(item.gia * item.soluong)} đ
+              </div>
+              <div class="col-sm-12 col-md-12" >
+                <hr>
+              </div>
+          `;
+        $("#product_list > div:last").append(htmlString);
+        htmlString = "";
+        });
+
+        var total_items = 0;
+        $.each(shoppingCartItems, function(index,item) {
+          total_items += item.soluong * item.gia;
+        });
+        $(".total_items").html(numberWithCommas(total_items));
+        $("#product_quantity").html(shoppingCartItems.length)
+      }
+
+      displayListCartItems();
+
+      $("#checkbox_create_acc").on('click', function(e) {
+        if ($("#checkbox_create_acc").prop('checked') == true) {
+          $("#passwd_newacc").html(`
+            <div class="col-sm-12">
+              <label>Mật khẩu(*):</label>
+              <input class="form-control" placeholder="Password..." name="passwd" id="passwd" type="password" >
+            </div>
+            `);
+          //$("#passwd_newacc").css('display', 'block');
+        } else {
+          $("#passwd_newacc").html("");
+          //$("#passwd_newacc").css('display', 'none');
+        }
+      })
+
+      $("#checkbox_create_bill").on('click', function(e) {
+        if ($("#checkbox_create_bill").prop('checked') == true) {
+          $("#bill_info").css('display', 'none');
+        } else {
+          $("#bill_info").css('display', 'block');
+        }
+      })
+
+      $("#btn_chitiet").on('click', function(e) {
+        $("#order_detail").toggle();
+      })
+
+      // validator
+      $("#form_finish_checkout_noacc").validate({
+        //onkeyup: false,
+        rules: {
+          username: {
+            required: true,
+            minlength: 3
+          },
+          passwd: {
+            required: true,
+            minlength: 3
+          },
+          phonenumber: {
+            required: true,
+            minlength: 9,
+            maxlength: 12,
+            digits: true
+          },
+          email: {
+            required: true,
+            email: true,
+            minlength: 10,
+            remote: {
+              url: "/admin/check_new_email",
+              type: "post",
+              data: {
+                email: function() {
+                  return  $("#email").val();
+                }
+              }
+            }
+          },
+          address: {
+            required: true,
+            minlength: 20,
+            maxlength: 100
+          },
+          company_name: {
+            minlength: 10,
+            maxlength: 30
+          },
+          company_address : {
+            minlength: 20,
+            maxlength: 100
+          },
+          tax_number: {
+            digits: true,
+            maxlength:10,
+            minlength:10
+          },
+          cus_note: {
+            maxlength: 100
+          }
+        },
+        messages: {
+          username: {
+            required: "Chưa nhập tên khách hàng",
+            minlength: "Tối thiểu 3 ký tự"
+          },
+          passwd: {
+            required: "Chưa nhập password",
+            minlength: "Tối thiểu 3 ký tự"
+          },
+          phonenumber: {
+            required: "Chưa nhập số điện thoại",
+            minlength: "Tối thiểu 9 chữ số",
+            maxlength: "Tối đa 15 chữ số",
+            digits: "Kiểu dữ liệu không hợp lệ"
+          },
+          email: {
+            required: "Chưa nhập email",
+            email: "Địa chỉ email không hợp lệ",
+            minlength: "Tối thiểu 10 ký tự",
+            remote: "Email này đã tồn tại"
+          },
+          address: {
+            required: "Chưa nhập địa chỉ giao hàng",
+            minlength: "Tối thiểu 20 ký tự",
+            maxlength: "Tối đa 100 ký tự"
+          },
+          company_name: {
+            minlength: "Tối thiểu 10 ký tự",
+            maxlength: "Tối đa 30 ký tự"
+          },
+          company_address : {
+            minlength: "Tối thiểu 20 ký tự",
+            maxlength: "Tối đa 100 ký tự"
+          },
+          tax_number: {
+            digits: "Kiểu dữ liệu không hợp lệ",
+            maxlength: "Tối đa 10 ký tự",
+            minlength: "Tối thiểu 10 ký tự"
+          },
+          cus_note: {
+            maxlength: "Tối đa 100 ký tự"
+          }
+        },
+        errorElement: "em",
+        errorPlacement: function ( error, element ) {
+          // Add the `help-block` class to the error element
+          error.addClass( "help-block" );
+
+          // Add `has-feedback` class to the parent div.form-group
+          // in order to add icons to inputs
+          element.parents( ".col-sm-12" ).addClass( "has-feedback" );
+
+          error.insertAfter( element );
+
+          // Add the span element, if doesn't exists, and apply the icon classes to it.
+          if ( !element.next( "span" )[ 0 ] ) {
+            $( "<span class='glyphicon glyphicon-remove form-control-feedback'></span>" ).insertAfter( element );
+          }
+        },
+        success: function ( label, element ) {
+          // Add the span element, if doesn't exists, and apply the icon classes to it.
+          if ( !$( element ).next( "span" )[ 0 ] ) {
+            $( "<span class='glyphicon glyphicon-ok form-control-feedback'></span>" ).insertAfter( $( element ) );
+          }
+        },
+        highlight: function ( element, errorClass, validClass ) {
+          $( element ).parents( ".col-sm-12" ).addClass( "has-error" ).removeClass( "has-success" );
+          $( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
+        },
+        unhighlight: function ( element, errorClass, validClass ) {
+          $( element ).parents( ".col-sm-12" ).addClass( "has-success" ).removeClass( "has-error" );
+          $( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
+        }
+      });
+
+      function SumCart() {
+        $("#array_item > div").html("");
+        var _string = "";
+
+        for (var i = 0; i < shoppingCartItems.length; i++) {
+          _string += `
+              <input type="text" class="hidden" name="item_cart[${i}][id]" value="${shoppingCartItems[i].id}">
+              <input type="text" class="hidden" name="item_cart[${i}][quantity]" value="${shoppingCartItems[i].soluong}">
+          `;
+          $("#array_item > div:last").append(_string);
+          _string = "";
+        }
+      };
+
+      SumCart();
+
+    })
+  </script>
+</body>
+
+</html>

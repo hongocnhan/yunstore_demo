@@ -1,0 +1,68 @@
+
+<%
+  // Add commas as thousand separators
+  function numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+  let km_tu = new Date();
+  let km_den = new Date();
+  let thoidiem = Date.now();
+  keyboardList.forEach(function(e){
+    %>
+    <div class="col-sm-3 col-lg-3 col-md-3">
+      <div class="thumbnail cover_sp">
+        <div class="post_img_content">
+          <img src="../img_/<%= e.anh_01 %>" class="_img-responsive" alt="Responsive image" data-toggle="modal" data-target="#<%= e.id %>">
+          <%
+
+            km_tu = e.km_tungay;
+            km_den = e.km_denngay;
+            km_den.setHours(km_den.getHours()+ 23);
+            if((Date.parse(km_tu) <= thoidiem)&&(thoidiem <= Date.parse(km_den))){
+              %>
+          <span class="title_label" >
+            <b>Khuyến mãi</b>
+          </span>
+        </div>
+        <div class="caption post_content" style="padding-top: 0px; background-color: #e2e2e2; border-radius: 0 0 10px 10px ;" >
+          <h4 style="text-overflow: ellipsis; overflow: hidden;">
+            <a href="/product/<%= e.tensanpham_seo %>"><%= e.tensanpham %></a>
+          </h4>
+              <%
+              %><h4 class="NumberGia_LineThrough" ><%= numberWithCommas(e.gia_thuong) %>đ</h4><%
+              %><h4 id="gia_km" >Giá KM: <%= numberWithCommas(e.gia_km) %>đ</h4><%
+            }else{
+              %>
+        </div>
+        <div class="caption post_content" style="padding-top: 0px; background-color: #e2e2e2; border-radius: 0 0 10px 10px ;" >
+          <h4 style="text-overflow: ellipsis; overflow: hidden;">
+            <a href="/product/<%= e.tensanpham_seo %>"><%= e.tensanpham %></a>
+          </h4>
+              <%
+              %><h4><%= numberWithCommas(e.gia_thuong) %>đ</h4><%
+            }
+          %>
+        </div>
+        <!-- Modal -->
+        <div id="<%= e.id %>" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+          <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title"><%= e.tensanpham %></h4>
+              </div>
+              <div class="modal-body">
+                <p><%- e.noidung_ngan %></p>
+              </div>
+              <div class="modal-footer">
+                <a href="/product/<%= e.tensanpham_seo %>" class="btn btn-danger">Mua hàng</a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <%
+  })
+%>

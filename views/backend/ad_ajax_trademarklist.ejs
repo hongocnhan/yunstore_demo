@@ -1,0 +1,12 @@
+<select id="oldtrademark" name="oldtrademark" class="form-control">
+    <option value="" data-id="" >Chọn thương hiệu</option>
+<%
+  array_Trademark.forEach(function(e){
+    if( e.tenloaisp_seo == categories){
+      %>
+        <option value="<%= e.tennhasx_seo %>" data-id="<%= e.id %>" ><%= e.tennhasx %></option>
+      <%
+    }
+  })
+%>
+</select>

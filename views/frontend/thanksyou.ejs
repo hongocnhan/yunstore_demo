@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>YunStore - Login</title>
+
+    <!-- typeahead CSS -->
+    <link href="css/typeahead-searchbar.css" rel="stylesheet">
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/shop-homepage.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+  <!-- Header -->
+  <!-- Logo WebSite -->
+      <div class="container">
+          <div class="row">
+              <div class="col-sm-4 col-md-4 col-lg-4" style="background-color: silver; text-align: center; padding-top: 15px; height: 50px">
+                LOGO STORE HERE
+              </div>
+              <div class="col-sm-8 col-md-8 col-lg-8" >
+                <div class="input-group" style="margin-top: 4px;">
+                  <input id="searchsp" class="typeahead form-control" type="text" style="border-radius: 20px 0px 0px 20px;" placeholder="Nhập tên sản phẩm...">
+                  <span class="input-group-btn">
+                    <button class="btn btn-primary" id="btn_search" type="button" style="border-radius: 0px 40px 40px 0px;">
+                      <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                  </span>
+                </div>
+              </div>
+          </div>
+      </div>
+      <hr>
+  <!-- End Logo WebSite -->
+      <!-- Navigation -->
+      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" >
+          <div class="container">
+              <!-- Brand and toggle get grouped for better mobile display -->
+              <div class="navbar-header">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                      <span class="sr-only">Toggle navigation</span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                  </button>
+                  <a class="navbar-brand glyphicon glyphicon-home" href="/"></a>
+              </div>
+              <!-- Collect the nav links, forms, and other content for toggling -->
+              <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right" >
+                  <%
+                    if(!user) {
+                      %>
+                        <li id="dangky"><a href="/registry"><span class="glyphicon glyphicon-user"></span> Đăng Ký</a></li>
+                        <li id="dangnhap"><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Đăng Nhập</a></li>
+                      <%
+                    }else{
+                      %>
+                        <li id="profile" style="display:none;"><a href="/profile">Hello, <%= user.email  %> <span class="glyphicon glyphicon-user"></span></a></li>
+                        <li id="dangxuat"><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Đăng Xuất</a></li>
+                      <%
+                    }
+                  %>
+                  <li id="giohang"><a href="/cart"><span class="glyphicon glyphicon-shopping-cart">
+                    <span class="badge" id="count_giohang" style="font-family: tahoma; margin: -9px 0px 0px -13px;"></span></a>
+                  </li>
+                </ul>
+              </div>
+              <!-- /.navbar-collapse -->
+          </div>
+          <!-- /.container -->
+      </nav>
+  <!-- End Header -->
+
+  <div class="container" >
+    <div class="row" >
+      <div class="bs-callout bs-callout-warning" id="callout-inputgroup-dont-mix">
+        <h2>Xin cám ơn quý khách</h2>
+        <p> - Thông tin đơn hàng sẽ được gửi đến email của bạn.</p>
+        <p> - Thời gian giao hàng sẽ phụ thuộc vào đơn vị vận chuyển.</p>
+        <p> - Trang sẽ tự động chuyển về trang chủ trong giây lát.</p>
+        <h2>Chúc bạn có một ngày làm việc hiệu quả</h2>
+      </div>
+    </div>
+    <hr>
+  </div>
+
+  <!-- Footer -->
+  <% include footer_ui %>
+  <!-- End Footer-->
+
+  <!-- jQuery -->
+  <script src="js/jquery-3.1.1.min.js"></script>
+
+  <!-- jQuery typeahead -->
+  <script src="js/typeahead.bundle.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+  <script src="js/bootstrap.min.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      // scriptCode
+      <% include scriptCode %>
+
+      shoppingCartItems = [];
+      // Lưu thông tin vào localStorage
+      localStorage["shopping_cart_items"] = JSON.stringify(shoppingCartItems);
+
+      setTimeout(function () {
+        window.location.href = "/";
+      }, 3000);
+
+    });
+
+  </script>
+
+</body>
+
+</html>

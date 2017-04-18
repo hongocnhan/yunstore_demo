@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>YunStore - Thông tin tài khoản</title>
+
+    <!-- typeahead CSS -->
+    <link href="../css/typeahead-searchbar.css" rel="stylesheet">
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap datepicker CSS -->
+    <link href="../css/datepicker-3.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../css/shop-homepage.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <!-- Header -->
+    <% include header_ui %>
+    <!-- End Header -->
+
+    <!-- Page Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-2 col-md-2">
+              <ul class="nav nav-pills nav-stacked" style="margin: 0px 0px 20px 0px;">
+                <li class="active"><a data-toggle="tab" href="#info_customer">Thông tin tài khoản</a></li>
+                <li><a data-toggle="tab" href="#shopping_orders_history">Lịch sử mua hàng</a></li>
+              </ul>
+            </div>
+            <div class="col-sm-10 col-md-10">
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="info_customer" >
+                        <div class="col-sm-12 col-md-12" >
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Thông tin tài khoản</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-3 col-lg-3 " align="center">
+                                            <i class="fa fa-user fa-5x" aria-hidden="true"></i>
+                                        </div>
+                                        <div class=" col-md-9 col-lg-9 ">
+                                            <form action="/profile_customer_update" method="post" id="form-customer-info">
+                                                <table class="table">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Tên*:</td>
+                                                            <td>
+                                                              <input class="form-control info_cus" type="text" name="username" id="username" value="<%= customer_info.name %>" disabled />
+                                                              <input type="hidden" id="id_cus" name="id_cus" value="<%= customer_info.id %>">
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Ngày sinh:</td>
+                                                            <td>
+                                                              <div class="info_cus" id="datepicker" data-date-end-date="0d" ></div>
+                                                              <input type="hidden" id="datepicker_input" name="datepicker_input">
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Giới tính:</td>
+                                                            <td>
+                                                              <%
+                                                                if(customer_info.sex == "male"){
+                                                                  %>
+                                                                    <label class="radio-inline">
+                                                                        <input class="info_cus" type="radio" name="sex" id="inlineCheckbox1" value="male" disabled checked />
+                                                                        Nam
+                                                                    </label>
+                                                                    <label class="radio-inline">
+                                                                        <input class="info_cus" type="radio" name="sex" id="inlineCheckbox2" value="female" disabled />
+                                                                        Nữ
+                                                                    </label>
+                                                                  <%
+                                                                }else{
+                                                                  %>
+                                                                    <label class="radio-inline">
+                                                                        <input class="info_cus" type="radio" name="sex" id="inlineCheckbox1" value="male" disabled />
+                                                                        Nam
+                                                                    </label>
+                                                                    <label class="radio-inline">
+                                                                        <input class="info_cus" type="radio" name="sex" id="inlineCheckbox2" value="female" disabled checked />
+                                                                        Nữ
+                                                                    </label>
+                                                                  <%
+                                                                }
+                                                              %>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Địa chỉ:</td>
+                                                            <td>
+                                                                <input class="form-control info_cus" type="text" name="diachi" id="diachi" value="<%= customer_info.address %>" disabled  />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Email:</td>
+                                                            <td>
+                                                              <span><%= customer_info.email %></span>
+                                                              <input type="hidden" name="emailkhachhang" value="<%= customer_info.email %>">
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Di động:</td>
+                                                            <td>
+                                                                <input class="form-control info_cus" type="text" name="dtdidong" id="dtdidong" value="<%= customer_info.phonenum %>" disabled />
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <hr>
+                                                <span class="pull-right">
+                                                    <a href="/change_password" class="btn btn-md btn-danger" href="#" style="margin: 5px 0 0 5px;" id="btn_doipassword">
+                                                        <i class="glyphicon glyphicon-lock"></i> Đổi mật khẩu
+                                                    </a>
+                                                    <button class="btn btn-md btn-warning" style="margin: 5px 0 0 5px;" type="button" id="btn_chinhsua">
+                                                        <i class="glyphicon glyphicon-edit"></i> Chỉnh sửa
+                                                    </button>
+                                                    <button class="info_cus btn btn-md btn-primary" style="margin: 5px 0 0 5px;" type="submit" id="btn_luu" disabled>
+                                                        <i class="glyphicon glyphicon-floppy-saved"></i> Lưu
+                                                    </button>
+                                                </span>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="shopping_orders_history" >
+                        <div class="col-sm-12 col-md-12" >
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Đơn hàng</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <ul>
+                                            <%
+                                              arrayOrder_history.forEach(function(e) {
+                                                %>
+                                                  <li><a class="id_orders" data-id="<%= e.madonhang %>"><strong>Đơn hàng <%= e.madonhang %></strong></a>
+                                                      <ul>
+                                                          <div id="content_<%= e.madonhang %>" class="show_detail_order"></div>
+                                                      </ul>
+                                                  </li>
+                                                  <hr>
+                                                <%
+                                              })
+                                            %>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.container -->
+
+    <!-- Footer -->
+    <% include footer_ui %>
+    <!-- End Footer-->
+
+    <!-- jQuery -->
+    <script src="../js/jquery-3.1.1.min.js"></script>
+
+    <!-- jQuery typeahead -->
+    <script src="../js/typeahead.bundle.js"></script>
+
+    <!-- datepicker -->
+    <script src="../js/bootstrap-datepicker.min.js"></script>
+    <script src="../js/bootstrap-datepicker.vi.min.js"></script>
+
+    <!-- jQuery dataFormat -->
+    <script src="../js/jquery-dateFormat.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function() {
+
+        // scriptCode
+        <% include scriptCode %>
+
+        $("#btn_chinhsua").click(() => {
+            $('.info_cus').prop('disabled', false);
+        });
+
+        $('#datepicker').datepicker({
+          language: "vi",
+          format: 'yyyy/mm/dd',
+          startDate: '1950/01/01',
+        });
+        $('#datepicker').datepicker('update', $.format.date('<%= customer_info.dob %>', 'yyyy/MM/dd'));
+        $('#datepicker_input').val( $.format.date('<%= customer_info.dob %>', 'yyyy/MM/dd'));
+        $('#datepicker').on('changeDate', function() {
+            $('#datepicker_input').val(
+                $('#datepicker').datepicker('getFormattedDate')
+            );
+        });
+
+        $(".id_orders").on('click', function(e) {
+          var $link = $(this);
+          var id_order_show = $link.attr("data-id");
+          $.post('/shopping_orders_history', {
+            id_order: $link.attr("data-id"),
+          }, data => {
+            $(".show_detail_order").html("");
+            $(`#content_${id_order_show}`).html(data);
+          });
+        });
+
+      });
+    </script>
+
+</body>
+
+</html>

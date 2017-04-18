@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>YunStore - Gaming Gear</title>
+    <base href="/">
+    <!-- typeahead CSS -->
+    <link href="../css/typeahead-searchbar.css" rel="stylesheet">
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../css/shop-homepage.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <!-- Header -->
+    <% include header_ui %>
+    <!-- End Header -->
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <!-- Carousel Content -->
+          <% include carousel_ui %>
+
+          <!-- Content San pham -->
+          <div class="well well-sm"><strong>SẢN PHẨM</strong></div>
+          <div class="row">
+            <!-- San pham -->
+            <div class="col-sm-12 col-md-12 col-lg-12" id="show_productList">
+                Show List
+            </div>
+            <!-- End San pham -->
+            <hr>
+            <div class="col-sm-12 col-md-12 col-lg-12 text-center">
+              <ul id="pagination_productList"></ul>
+            </div>
+          </div>
+          <!-- End Content San pham -->
+
+        </div>
+      </div>
+    </div>
+    <!-- /.container Page Content -->
+
+
+    <!-- Footer -->
+    <% include footer_ui %>
+    <!-- End Footer-->
+
+    <!-- jQuery -->
+    <script src="../js/jquery-3.1.1.min.js"></script>
+
+    <!-- jQuery typeahead -->
+    <script src="js/typeahead.bundle.js"></script>
+
+    <!-- jQuery TwbsPagination -->
+    <script src="../js/jquery.twbsPagination.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+
+        // scriptCode
+        <% include scriptCode %>
+
+        $('#pagination_productList').twbsPagination({
+            totalPages: <%= totalPage %>,
+            visiblePages: 3,
+            first:'&laquo;',
+            prev: '&lt;',
+            next: '&gt;',
+            last: '&raquo;',
+            hrefVariable: '{{pageNumber}}',
+            onPageClick: function (event, page) {
+              $.get(`/paging_product_categories/<%= catProduct %>/${page}`, data => {
+                $('#show_productList').hide().html(data).fadeIn(2500);
+              });
+            }
+        });
+
+      });
+    </script>
+
+
+</body>
+
+</html>
